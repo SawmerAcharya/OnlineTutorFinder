@@ -38,7 +38,7 @@ function Header() {
       }
     } catch (error) {
       toast.error(error.message);
-    }
+    } ServerRouter
   };
 
   return (

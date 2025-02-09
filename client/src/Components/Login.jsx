@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { backendUrl, setIsLoggedin, setUserData } = useContext(AppContent); // Include setUserData to save user info
+  const { backendUrl, setIsLoggedin, setUserData } = useContext(AppContent); 
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
