@@ -50,7 +50,7 @@ function TutorForm() {
   return (
     <form className="space-y-4">
       <Input label="Full Name" placeholder="Enter your full name" />
-      <Input label="Email Address" placeholder="Enter your email" />
+      <Input label="Phone number" placeholder="Enter your phone number" />
       <Input label="Subject" placeholder="What subject do you teach?" />
       <Textarea label="Experience" placeholder="Describe your teaching experience" />
       <FileUpload label="Upload Certificate" />
