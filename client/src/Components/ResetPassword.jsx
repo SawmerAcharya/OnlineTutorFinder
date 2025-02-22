@@ -1,9 +1,11 @@
+
 import React, { useContext, useState } from "react";
 import { MdOutlineEmail, MdVpnKey } from "react-icons/md";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { AppContent } from "../Context/AppContex";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 function ResetPassword() {
   const { backendUrl } = useContext(AppContent);
@@ -12,6 +14,7 @@ function ResetPassword() {
 
   const [email, setEmail] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for password visibility
   const [isEmailSent, setIsEmailSent] = useState(false);
   const [isOtpSubmited, setIsOtpSubmited] = useState(false);
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -68,28 +71,25 @@ function ResetPassword() {
   const onSubmitOTP = async (event) => {
     event.preventDefault();
     const enteredOtp = otp.join("");
-    console.log("Email:", email); // Debug email
-    console.log("OTP:", enteredOtp); // Debug OTP
-
-    setIsOtpSubmited(true)
-  
-    // try {
-    //   const { data } = await axios.post(`${backendUrl}/api/auth/verify-reset-otp`, { email, otp: enteredOtp });
-    //   console.log("Response Data:", data); // Debug response
-    //   if (data.success) {
-    //     toast.success(data.message);
-    //     setIsOtpSubmited(true);
-    //   } else {
-    //     toast.error(data.message);
-    //   }
-    // } catch (error) {
-    //   console.error("Error Response:", error.response); // Debug error response
-    //   toast.error(error.response?.data?.message || "Failed to verify OTP.");
-    // }
+    setIsOtpSubmited(true);
   };
-  
 
   // Handle New Password Submission
+  // const onSubmitNewPassword = async (event) => {
+  //   event.preventDefault();
+  //   try {
+  //     const { data } = await axios.post(`${backendUrl}/api/auth/reset-password`, { email, otp: otp.join(""), newPassword });
+  //     if (data.success) {
+  //       toast.success(data.message);
+  //       navigate("/login");
+  //     } else {
+  //       toast.error(data.message);
+  //     }
+  //   } catch (error) {
+  //     toast.error(error.response?.data?.message || "Failed to reset password.");
+  //   }
+  // };
+
   const onSubmitNewPassword = async (event) => {
     event.preventDefault();
     try {
@@ -105,7 +105,8 @@ function ResetPassword() {
       toast.error(error.response?.data?.message || "Failed to reset password.");
     }
   };
-return (
+
+  return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="flex flex-row gap-8 flex-wrap justify-center">
         {!isEmailSent && (
@@ -172,13 +173,24 @@ return (
               <div className="relative mb-4">
                 <MdVpnKey className="absolute text-lg text-gray-500 left-3 top-1/2 transform -translate-y-1/2" />
                 <input
-                  type="password"
+                  type={isPasswordVisible ? "text" : "password"}
                   placeholder="Enter your new password"
-                  className="border rounded-lg w-full pl-10 p-3"
+                  className="border rounded-lg w-full pl-10 pr-10 p-3"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   required
                 />
+                {isPasswordVisible ? (
+                  <IoEyeOffOutline
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-lg text-gray-400 cursor-pointer"
+                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                  />
+                ) : (
+                  <IoEyeOutline
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-lg text-gray-400 cursor-pointer"
+                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                  />
+                )}
               </div>
               <button type="submit" className="bg-indigo-600 text-white w-full p-3 rounded-lg hover:bg-indigo-700 transition-colors">
                 Update Password
@@ -192,4 +204,3 @@ return (
 }
 
 export default ResetPassword;
-

@@ -1,7 +1,7 @@
-
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { AppContent } from "../Context/AppContex";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -17,6 +17,8 @@ const SignupForm = () => {
     password: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false); // State for toggling password visibility
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -25,32 +27,20 @@ const SignupForm = () => {
     }));
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword); // Toggle password visibility
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email, password } = formData;
 
-    // Specific validation for each field
-    if (!name && !email && !password) {
+    if (!name || !email || !password) {
       toast.error("All fields are required.");
       return;
     }
 
-    if (!name) {
-      toast.error("Full name is required.");
-      return;
-    }
-
-    if (!email) {
-      toast.error("Email address is required.");
-      return;
-    }
-
-    if (!password) {
-      toast.error("Password is required.");
-      return;
-    }
-
-    try {
+      try {
       console.log("Sending signup request to:", backendUrl);
 
       const { data } = await axios.post(`${backendUrl}/api/auth/register`, formData, {
@@ -130,15 +120,26 @@ const SignupForm = () => {
               <div className="relative">
                 <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-lg text-gray-400" />
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"} // Toggle input type
                   id="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  className="pl-10 pr-3 py-2 w-full border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
+                  className="pl-10 pr-10 py-2 w-full border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
                   placeholder="Enter your password"
                   required
                 />
+                {showPassword ? (
+                  <IoEyeOffOutline
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-lg text-gray-400 cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  />
+                ) : (
+                  <IoEyeOutline
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-lg text-gray-400 cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  />
+                )}
               </div>
             </div>
 
@@ -165,4 +166,3 @@ const SignupForm = () => {
 };
 
 export default SignupForm;
-

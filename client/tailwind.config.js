@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+
+import { withUt } from "uploadthing/tw";
+
+export default withUt({
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -8,4 +11,4 @@ export default {
     extend: {},
   },
   plugins: [],
-}
+})

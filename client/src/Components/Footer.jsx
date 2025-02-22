@@ -1,5 +1,5 @@
 import React from "react";
-
+//Imported icons
 import { FaPhone, FaInstagram, FaTwitter } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -39,8 +39,8 @@ function Footer() {
 
         <div className="w-full sm:w-1/5 mb-6 sm:mb-0">
           <h4 className="font-bold mb-2">Contact Us</h4>
-          <p>Phone: +977 9809804755</p>
-          <p>Email: Tutor3131@gmail.com</p>
+          <p>Phone: +977 9844839444</p>
+          <p>Email: tutorfinder@gmail.com</p>
         </div>
       </div>
 

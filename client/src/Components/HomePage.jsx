@@ -10,13 +10,13 @@ function HomePage() {
         className="flex flex-col md:flex-row items-center justify-between px-8 py-16 bg-cover bg-center bg-green-300"
     
         style={{ 
-          backgroundImage: `url('./Images/TutoringBackground.jpg')`, // Replace with your background image path
+          backgroundImage: `url('./Images/TutoringBackground.jpg')`, 
         }}
       >
         {/* Taller Box */}
         <div className="w-full md:w-2/5 bg-white bg-opacity-90 p-8 rounded-md shadow-lg h-[400px] flex flex-col justify-between">
           <h2 className="text-4xl font-bold text-gray-900 leading-tight">
-            Online tutoring <br /> that releases potential
+            TutorFinder <br /> that releases potential
           </h2>
           <p className="text-gray-600 mt-4 text-base">
             We can't stop you worrying about your child. But our expert tutors
