@@ -226,6 +226,24 @@ export const updateTutorStatus = async (req, res) => {
     });
   }
 };
+export const getAllApproveTutors = async (req, res) => {
+  try {
+    const tutors = await userModel
+      .find({ role: 'tutor', 'tutorData.status': 'approved' })
+      .select('-password');
 
+    if (tutors.length === 0) {
+      console.log("No tutors found in DB!");
+    }
+
+    return res.status(200).json({
+      success: true,
+      tutors,
+    });
+  } catch (error) {
+    console.error("Error fetching tutors:", error.message);
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
 
 

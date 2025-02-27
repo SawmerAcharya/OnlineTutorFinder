@@ -1,58 +1,66 @@
 import React from "react";
-//Imported icons
-import { FaPhone, FaInstagram, FaTwitter } from "react-icons/fa";
-import { FaFacebook } from "react-icons/fa";
+import { FaPhone, FaInstagram, FaTwitter, FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 function Footer() {
   return (
-    <footer className="bg-gray-800 text-white p-10">
-      <div className="max-w-6xl mx-auto flex flex-wrap justify-between">
+    <footer className="bg-gray-900 text-gray-300 py-12">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         
-        <div className="w-full sm:w-2/5 mb-6 sm:mb-0">
-          <a href="/" className="flex items-center mb-4">
-            
-            <span className="font-bold text-xl">Tutor Finder</span>
-          </a>
-          <p>Achieve your goals with the perfect tutor.</p>
+        {/* Logo & About */}
+        <div>
+          <h2 className="text-white text-2xl font-bold mb-4">Tutor Finder</h2>
+          <p className="text-gray-400">Achieve your goals with the perfect tutor.</p>
         </div>
-        <div className="w-full sm:w-1/5 mb-6 sm:mb-0">
-          <h4 className="font-bold mb-2">Connect With Us</h4>
-          <div className="flex justify-start items-center mt-2">
-            <a className="hover:text-blue-600 mx-2" href="https://facebook.com">
+        
+        {/* Connect With Us */}
+        <div>
+          <h3 className="text-white text-lg font-semibold mb-4">Connect With Us</h3>
+          <div className="flex space-x-4">
+            <a className="text-gray-400 hover:text-blue-600 transition" href="https://facebook.com">
               <FaFacebook size={28} />
             </a>
-            <a className="hover:text-red-500 mx-2" href="https://instagram.com">
+            <a className="text-gray-400 hover:text-red-500 transition" href="https://instagram.com">
               <FaInstagram size={28} />
             </a>
-            <a className="hover:text-blue-500 mx-2" href="https://twitter.com">
+            <a className="text-gray-400 hover:text-blue-500 transition" href="https://twitter.com">
               <FaTwitter size={28} />
             </a>
-            <a className="mx-2" href="https://mail.google.com">
+            <a className="text-gray-400 hover:text-green-500 transition" href="https://mail.google.com">
               <FcGoogle size={28} />
             </a>
-            <a className="hover:text-blue-600 mx-2" href="tel:+9779844839444">
+            <a className="text-gray-400 hover:text-blue-400 transition" href="tel:+9779844839444">
               <FaPhone size={28} />
             </a>
           </div>
         </div>
+        
+        {/* Contact Us */}
+        <div>
+          <h3 className="text-white text-lg font-semibold mb-4">Contact Us</h3>
+          <p className="text-gray-400">Phone: +977 9844839444</p>
+          <p className="text-gray-400">Email: tutorfinder@gmail.com</p>
+        </div>
 
-        <div className="w-full sm:w-1/5 mb-6 sm:mb-0">
-          <h4 className="font-bold mb-2">Contact Us</h4>
-          <p>Phone: +977 9844839444</p>
-          <p>Email: tutorfinder@gmail.com</p>
+        {/* Quick Links */}
+        <div>
+          <h3 className="text-white text-lg font-semibold mb-4">Quick Links</h3>
+          <ul className="text-gray-400 space-y-2">
+            <li><a href="/about" className="hover:text-white transition">About Us</a></li>
+            <li><a href="/services" className="hover:text-white transition">Services</a></li>
+            <li><a href="/contact" className="hover:text-white transition">Contact</a></li>
+          </ul>
         </div>
       </div>
-
-      <div className="text-center text-sm border-t border-gray-700 mt-10 pt-10">
+      
+      {/* Copyright */}
+      <div className="text-center text-sm text-gray-500 mt-10 border-t border-gray-700 pt-6">
         <p>© 2024 Tutor Finder. All rights reserved.</p>
-        <a href="/privacy" className="hover:text-blue-400 transition-colors">
-          Privacy Policy
-        </a>{" "}
-        |
-        <a href="/terms" className="hover:text-blue-400 transition-colors">
-          Terms of Service
-        </a>
+        <div className="space-x-3 mt-2">
+          <a href="/privacy" className="hover:text-white transition">Privacy Policy</a>
+          <span>|</span>
+          <a href="/terms" className="hover:text-white transition">Terms of Service</a>
+        </div>
       </div>
     </footer>
   );

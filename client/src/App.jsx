@@ -57,7 +57,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Search, LogOut } from "lucide-react";
 
 import Login from "./Components/Login";
-import HomePage from "./Components/Homepage";
+import HomePage from "./Components/HomePage";
 import SignupForm from "./Components/SignupForm";
 import EmailVerify from "./Components/EmailVerify";
 import ResetPassword from "./Components/ResetPassword";

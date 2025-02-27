@@ -1,22 +1,24 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; 
 import Header from "./Header";
 import Footer from "./Footer";
 
 function HomePage() {
+  const navigate = useNavigate(); 
+
   return (
     <div>
       <Header />
       <section
         className="flex flex-col md:flex-row items-center justify-between px-8 py-16 bg-cover bg-center bg-green-300"
-    
-        style={{ 
+        style={{
           backgroundImage: `url('./Images/TutoringBackground.jpg')`, 
         }}
       >
         {/* Taller Box */}
         <div className="w-full md:w-2/5 bg-white bg-opacity-90 p-8 rounded-md shadow-lg h-[400px] flex flex-col justify-between">
           <h2 className="text-4xl font-bold text-gray-900 leading-tight">
-            TutorFinder <br /> that releases potential
+            Online tutoring <br /> that releases potential
           </h2>
           <p className="text-gray-600 mt-4 text-base">
             We can't stop you worrying about your child. But our expert tutors
@@ -24,7 +26,10 @@ function HomePage() {
             little less.
           </p>
           <div className="mt-6 flex items-center">
-            <button className="bg-blue-500 text-white px-6 py-2 text-base rounded hover:bg-blue-600">
+            <button
+              className="bg-blue-500 text-white px-6 py-2 text-base rounded hover:bg-blue-600"
+              onClick={() => navigate("/Userdashboard")} 
+            >
               Find a tutor
             </button>
           </div>

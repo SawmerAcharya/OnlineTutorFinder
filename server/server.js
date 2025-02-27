@@ -3,6 +3,7 @@ import cors from "cors";
 import 'dotenv/config';
 import cookieParser from "cookie-parser";
 
+
 import connectDB from "./config/db.js";
 import authRouter from "./routes/authRoutes.js";
 import { createRouteHandler } from "uploadthing/express";
@@ -43,5 +44,8 @@ console.log("CORS configured for", allowedOrigins);
 app.get("/", (req, res) => res.send("API is Working "));
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+
+
+
 
 app.listen(port, () => console.log(`Server started on PORT:${port}`));
