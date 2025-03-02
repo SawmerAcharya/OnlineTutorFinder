@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 function Header() {
   const navigate = useNavigate();
   const { userData, backendUrl, setUserData, setIsLoggedin } = useContext(AppContent);
-
   const [localUserData, setLocalUserData] = useState(null);
 
   useEffect(() => {
@@ -20,12 +19,11 @@ function Header() {
 
   useEffect(() => {
     setLocalUserData(userData);
-
     if (userData) {
       if (userData.role == null) {
         navigate("/form");
       } else {
-        navigate("/"); // For non-tutor users
+        navigate("/");
       }
     }
   }, [userData, navigate]);
@@ -49,32 +47,28 @@ function Header() {
     <div className="bg-white p-4 flex justify-between items-center shadow-lg">
       {/* Logo Section */}
       <div className="text-2xl font-extrabold text-blue-600 flex items-center">
-      <span className="text-yellow-500">Online</span>
+        <span className="text-yellow-500">Online</span>
         <span className="text-green-500">Tutors</span>
         <span className="text-blue-500">Finder</span>
       </div>
 
       {/* Navigation/Right section */}
       <div className="flex items-center space-x-6">
-        {/* User Dropdown Section */}
+        {/* User Profile and Logout */}
         {localUserData && localUserData.name ? (
-          <div className="relative group">
+          <div className="flex items-center space-x-4">
             {/* User Initial Circle */}
-            <div className="flex items-center justify-center bg-blue-600 text-white rounded-full w-10 h-10 text-lg font-semibold cursor-pointer group-hover:bg-blue-700 transition duration-200">
+            <div className="flex items-center justify-center bg-blue-600 text-white rounded-full w-10 h-10 text-lg font-semibold cursor-pointer">
               {localUserData.name[0].toUpperCase()}
             </div>
 
-            {/* Dropdown Menu */}
-            <div className="absolute hidden group-hover:block top-full right-0 mt-2 w-40 bg-white text-black rounded-lg shadow-lg">
-              <ul className="list-none m-0 p-2 text-sm">
-                <li
-                  className="py-2 px-4 hover:bg-gray-100 cursor-pointer"
-                  onClick={logout}
-                >
-                  Logout
-                </li>
-              </ul>
-            </div>
+            {/* Logout Button */}
+            <button
+              className="bg-red-500 text-white text-sm px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition"
+              onClick={logout}
+            >
+              Logout
+            </button>
           </div>
         ) : (
           // Login Button

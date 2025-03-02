@@ -10,7 +10,7 @@ function HomePage() {
     <div>
       <Header />
       <section
-        className="flex flex-col md:flex-row items-center justify-between px-8 py-16 bg-cover bg-center bg-green-300"
+        className="flex flex-col md:flex-row items-center justify-between px-8 py-16 bg-cover bg-center bg-[#E6ECF8]"
         style={{
           backgroundImage: `url('./Images/TutoringBackground.jpg')`, 
         }}
