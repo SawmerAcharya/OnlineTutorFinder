@@ -1,10 +1,14 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 
 function HomePage() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+
+  const handleFindTutor = () => {
+    navigate("/Userdashboard"); // Directly navigate to the user dashboard
+  };
 
   return (
     <div>
@@ -12,10 +16,10 @@ function HomePage() {
       <section
         className="flex flex-col md:flex-row items-center justify-between px-8 py-16 bg-cover bg-center bg-[#E6ECF8]"
         style={{
-          backgroundImage: `url('./Images/TutoringBackground.jpg')`, 
+          backgroundImage: `url('./Images/TutoringBackground.jpg')`,
         }}
       >
-        {/* Taller Box */}
+        {/* Info Box */}
         <div className="w-full md:w-2/5 bg-white bg-opacity-90 p-8 rounded-md shadow-lg h-[400px] flex flex-col justify-between">
           <h2 className="text-4xl font-bold text-gray-900 leading-tight">
             Online tutoring <br /> that releases potential
@@ -27,13 +31,14 @@ function HomePage() {
           </p>
           <div className="mt-6 flex items-center">
             <button
-              className="bg-blue-500 text-white px-6 py-2 text-base rounded hover:bg-blue-600"
-              onClick={() => navigate("/Userdashboard")} 
+              className="bg-blue-500 text-white px-6 py-2 text-base rounded hover:bg-blue-600 transition-all"
+              onClick={handleFindTutor}
             >
               Find a tutor
             </button>
           </div>
         </div>
+
 
         {/* Image */}
         <div className="mt-8 md:mt-0 md:ml-8 w-full md:w-3/5">

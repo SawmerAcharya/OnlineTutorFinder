@@ -30,48 +30,6 @@ export const getUserData = async (req, res)=>{
 
 
 
-// export const setUserRole = async (req, res) => {
-//   try {
-//     const { role, tutorFields } = req.body;
-//     const userId = req.body.userId;
-
-//     if (!['student', 'tutor'].includes(role)) {
-//       return res.status(400).json({ success: false, message: 'Invalid role. Allowed values are "student" or "tutor".' });
-//     }
-
-//     const user = await userModel.findById(userId);
-
-//     if (!user) {
-//       return res.status(400).json({ success: false, message: 'User not found' });
-//     }
-
-//     user.role = role;
-
-//     if (role === 'tutor') {
-//       user.tutorData = tutorFields;
-//       user.isApproved = false; // Admin needs to approve tutor
-//     } else {
-//       user.tutorData = null;
-//     }
-
-//     await user.save();
-
-//     return res.status(200).json({
-//       success: true,
-//       message: 'Role updated successfully',
-//       userData: {
-//         name: user.name,
-//         role: user.role,
-//         isAccountVerified: user.isAccountVerified,
-//         isApproved: user.isApproved,
-//       },
-//     });
-//   } catch (error) {
-//     return res.status(400).json({ success: false, message: error.message });
-//   }
-// };
-
-
 export const setUserRole = async (req, res) => {
   try {
     const { role, tutorFields } = req.body;
