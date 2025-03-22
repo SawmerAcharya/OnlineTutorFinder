@@ -5,15 +5,15 @@
 // import { Search, LogOut } from "lucide-react";
 
 
-// // import Login from "./Components/Login";
-// // import HomePage from "./Components/Homepage";
-// // import SignupForm from "./Components/SignupForm";
-// // import EmailVerify from "./Components/EmailVerify";
-// // import ResetPassword from "./Components/ResetPassword";
-// // import TutorProfile from "./Components/Admin/ViewProfile";
-// // import RegistrationPortal from "./Components/TutorDetails/RegistrationPortal";
-// // import Dashboard from './Components/Admin/Dashboard'
-// // import TutorDashboard from './Components/Tutor/TutorDashboard'
+// import Login from "./Components/Login";
+// import HomePage from "./Components/Homepage";
+// import SignupForm from "./Components/SignupForm";
+// import EmailVerify from "./Components/EmailVerify";
+// import ResetPassword from "./Components/ResetPassword";
+// import TutorProfile from "./Components/Admin/ViewProfile";
+// import RegistrationPortal from "./Components/TutorDetails/RegistrationPortal";
+// import Dashboard from './Components/Admin/Dashboard'
+// import TutorDashboard from './Components/Tutor/TutorDashboard'
 // import Userdashboard from "./Components/Userdashboard";
 
 
@@ -29,7 +29,7 @@
 //         {" "}
 //         {/* Main container for all routes */}
         
-//         {/* <Routes>
+//         <Routes>
 //           <Route path="/" element={<HomePage />} />         
 //           <Route path="/login" element={<Login />} />        
 //           <Route path="/SignupForm" element={<SignupForm />} />       
@@ -40,7 +40,7 @@
 //           <Route path="/admin" element={<Dashboard />} />       
 //           <Route path="/profile/:tutorId" element={<TutorProfile />} />      
 //           <Route path="/tutor" element={<TutorDashboard />} />      
-//         </Routes> */}
+//         </Routes>
 //         <Userdashboard></Userdashboard>
 //       </div>
 //     </Router>
@@ -66,8 +66,8 @@ import RegistrationPortal from "./Components/TutorDetails/RegistrationPortal";
 import Dashboard from './Components/Admin/Dashboard'
 import TutorDashboard from './Components/Tutor/TutorDashboard'
 import Userdashboard from "./Components/Userdashboard";
-
-
+import ChatApp from "./Components/ChatApp";
+import Chat from "./Chat/chat";
 
 function App() {
   return (
@@ -86,8 +86,10 @@ function App() {
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/tutor-profile" element={<TutorProfile />} />
           <Route path="/tutor" element={<TutorDashboard />} />
+          <Route path="/Chat" element={<Chat/>} />
         <Route path="/Userdashboard" element={<Userdashboard />} />
         
+        <Route path="/ChatApp" element={<ChatApp />} />
         </Routes>
       </Router>
     </div>
