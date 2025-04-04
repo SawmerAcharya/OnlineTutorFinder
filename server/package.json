@@ -25,7 +25,8 @@
     "mongoose": "^8.9.3",
     "nodemailer": "^6.9.16",
     "socket.io": "^4.8.1",
-    "uploadthing": "^7.4.4"
+    "uploadthing": "^7.4.4",
+    "recharts": "^2.15.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"

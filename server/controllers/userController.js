@@ -14,6 +14,7 @@ export const getUserData = async (req, res)=>{
    return res.status(200).json({
     success: true,
     userData: {
+      _id:user._id,
       name: user.name,
       role:user.role,
       tutorData:user.tutorData,
@@ -28,7 +29,28 @@ export const getUserData = async (req, res)=>{
 
 }
 
+export const getAllStudents = async (req, res) => {
+  try {
+    const students = await userModel.find({ role: "student" }); // Finds all users with the role 'student'
 
+    if (!students.length) {  // Check if no students are found
+      return res.status(404).json({ success: false, message: "No students found" });
+    }
+
+    // Map the student data into a cleaner response structure
+    const studentData = students.map((student) => ({
+      id: student._id, // Ensure id is included in the response
+      name: student.name,
+      email: student.email,
+     
+    }));
+
+    return res.status(200).json({ success: true, students: studentData });
+  } catch (error) {
+    console.error("Error fetching students:", error.message);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
 
 export const setUserRole = async (req, res) => {
   try {

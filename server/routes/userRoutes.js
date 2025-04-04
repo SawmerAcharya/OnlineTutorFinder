@@ -1,7 +1,7 @@
 import express from 'express'
 import userAuth from '../middleware/userAuth.js';
 import { getUserData,setUserRole } from '../controllers/userController.js';
-import { getAllTutors, getTutorById, updateTutorStatus, getTutorInfo,getAllApproveTutors} from '../controllers/userController.js';
+import { getAllTutors, getTutorById, updateTutorStatus, getTutorInfo,getAllApproveTutors , getAllStudents} from '../controllers/userController.js';
 
 
 const userRouter = express.Router();
@@ -18,6 +18,6 @@ userRouter.put("/tutor/status/:tutorId", userAuth, updateTutorStatus);
 
 userRouter.get("/tutor/status/:tutorId", getTutorInfo);
 
-
+userRouter.get('/students', getAllStudents);
 
 export default userRouter; 
