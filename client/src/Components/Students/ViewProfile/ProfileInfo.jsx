@@ -58,40 +58,39 @@
 // export default ProfileInfo;
 
 
-
-
-import { useState, useEffect } from "react"
-import axios from "axios"
-import { useParams } from "react-router-dom"
-import HeaderCard from "./HeaderCard"
-import ContactCard from "./ContactCard"
-import AvailableCard from "./AvailableCard"
-import TabNav from "./TabNav"
-import TabContent from "./TabContent"
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
+import HeaderCard from "./HeaderCard";
+import ContactCard from "./ContactCard";
+import AvailableCard from "./AvailableCard";
+import TabNav from "./TabNav";
+import TabContent from "./TabContent";
 
 function ProfileInfo() {
-  const { id } = useParams() // Get tutor ID from URL
-  const [tutor, setTutor] = useState(null)
-  const [activeTab, setActiveTab] = useState("about")
+  const { id } = useParams(); // Get tutor ID from URL
+  const [tutor, setTutor] = useState(null);
+  const [activeTab, setActiveTab] = useState("about");
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const fetchTutor = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/user/tutors/${id}`)
-        setTutor(response.data.tutor)
+        const response = await axios.get(`http://localhost:5001/api/user/tutors/${id}`);
+        setTutor(response.data.tutor);
       } catch (error) {
-        console.error("Error fetching tutor:", error)
+        console.error("Error fetching tutor:", error);
       }
-    }
-    fetchTutor()
-  }, [id])
+    };
+    fetchTutor();
+  }, [id]);
 
   if (!tutor)
     return (
       <div className="flex items-center justify-center min-h-screen">
         <p className="text-slate-700 text-lg animate-pulse">Loading...</p>
       </div>
-    )
+    );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 p-4 md:p-8 font-sans">
@@ -129,7 +128,10 @@ function ProfileInfo() {
 
             {/* Sticky "Book Now" button for mobile */}
             <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white p-4 shadow-lg border-t border-slate-200 z-10">
-              <button className="w-full py-3 px-4 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-lg transition-colors">
+              <button
+                onClick={() => navigate(`/book`)} // Navigate to the Book page
+                className="w-full py-3 px-4 bg-orange-600 hover:bg-orange-500 text-white font-medium rounded-lg transition-colors"
+              >
                 Book a Session
               </button>
             </div>
@@ -141,7 +143,10 @@ function ProfileInfo() {
                 <p className="text-slate-600 text-sm">
                   Book a session with {tutor.name} and start improving your skills today.
                 </p>
-                <button className="w-full py-3 px-4 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-lg transition-colors">
+                <button
+                  onClick={() => navigate(`/book`)} // Navigate to the Book page
+                  className="w-full py-3 px-4 bg-orange-600 hover:bg-orange-500 text-white font-medium rounded-lg transition-colors"
+                >
                   Book a Session
                 </button>
               </div>
@@ -150,7 +155,7 @@ function ProfileInfo() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default ProfileInfo
+export default ProfileInfo;
