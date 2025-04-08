@@ -20,7 +20,8 @@ import TutorSettings from './Components/Tutor/Profile/TutorSettings'
 import TutorStudent from "./Components/Tutor/Profile/TutorStudent"; 
 import TutorMessages from "./Components/Tutor/Message/Message";
 
-import SearchTutor from "./Components/SearchTutor";  // Main default dashboard 
+import Homepage from "./Components/Homepage";  // Main default dashboard 
+import SearchTutor from "./Components/SearchTutor";
 import ProfileInfo from "./Components/Students/ViewProfile/ProfileInfo" //tutor details where student can see through their dashboard
 import Favorites from "./Components/Students/Favorites";
 import Profile from "./Components/Students/Profile"; //Student profile
@@ -32,6 +33,7 @@ import PendingCard from "./Components/Tutor/ApplicationStatus/PendingCard";
 
 import PaymentFailed from "./Components/Students/PaymentStatus/PaymentFailed";
 import PaymentSuccess from "./Components/Students/PaymentStatus/PaymentSuccess";
+
 
 
 function App() {
@@ -46,7 +48,8 @@ function App() {
         {/* Main container for all routes */}
         
         <Routes>
-          <Route path="/" element={<SearchTutor />} />         
+          <Route path="/" element={<Homepage />} /> 
+          <Route path="/SearchTutor" element={< SearchTutor />} />        
           <Route path="/login" element={<Login />} />        
           <Route path="/SignupForm" element={<SignupForm />} />       
           <Route path="/verify-email" element={<EmailVerify />} />       

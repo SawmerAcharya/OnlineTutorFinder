@@ -44,7 +44,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import HeaderCard from "./HeaderCard";
-import LocationCard from "./LocationCard";
+// import LocationCard from "./LocationCard";
 import ContactCard from "./ContactCard";
 import AvailableCard from "./AvailableCard";
 import TabNav from "./TabNav";
@@ -87,12 +87,11 @@ function ProfileInfo() {
           {/* Right Column */}
           <div className="w-full lg:w-1/3">
             <ContactCard tutor={tutor}/>
-            <LocationCard />
+            {/* <LocationCard /> */}
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>  );
 }
 
 export default ProfileInfo;

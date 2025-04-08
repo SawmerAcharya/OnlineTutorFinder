@@ -1,332 +1,200 @@
-// import React, { useState, useContext, useEffect } from "react";
-// import axios from "axios";
-// import { AppContent } from "../../../Context/AppContex";
-// import {
-//   Heart,
-//   Star,
-//   MapPin,
-//   Globe,
-//   Calendar,
-//   CheckCircle,
-// } from "lucide-react";
 
-// export default function HeaderCard({ tutor }) {
-//   const [isFavorite, setIsFavorite] = useState(false);
-//   const { backendUrl, userData } = useContext(AppContent);
-
-//   useEffect(() => {
-//     console.log("User data loaded:", userData);
-//   }, [userData]);
-
-//   const handleSaveFavorite = async () => {
-//     if (!userData || !userData._id) {
-//       console.error("User not logged in or user data not loaded.");
-//       alert("Please log in to save favorites.");
-//       return;
-//     }
-
-//     // Handle case where tutorData might be null
-//     if (!tutor || !tutor._id) {
-//       console.error("Tutor data is invalid.");
-//       alert("Invalid tutor data.");
-//       return;
-//     }
-
-//     console.log("userId:", userData._id);
-//     console.log("tutorId:", tutor._id);
-
-//     try {
-//       const response = await axios.post(
-//         `${backendUrl}/api/favorites/AddFavorites`,
-//         {
-//           userId: userData._id,
-//           tutorId: tutor._id,
-//         },
-//         { withCredentials: true }
-//       );
-
-//       console.log("Favorite saved successfully:", response.data);
-//       setIsFavorite(true);
-//     } catch (error) {
-//       console.error(
-//         "Error saving favorite:",
-//         error.response?.data || error.message
-//       );
-//     }
-//   };
-
-//   if (!userData) {
-//     return <div>Loading user data...</div>; // or some other loading indicator
-//   }
-
-//   return (
-//     <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
-//       <div className="bg-gradient-to-r from-indigo-500 to-blue-600 h-32 md:h-48 relative">
-//         <div className="absolute -bottom-16 left-6 md:left-8">
-//           <div className="w-32 h-32 md:w-40 md:h-40 rounded-xl bg-white p-1.5 shadow-lg">
-//             <div className="w-full h-full rounded-lg overflow-hidden">
-//               {/* <img
-//                 src={tutor.image || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80"}
-//                 alt={tutor.name}
-//                 className="w-full h-full object-cover"
-//               /> */}
-
-//               <img
-//                 src={
-//                   tutor.tutorData?.profile
-//                     ? `https://utfs.io/f/${tutor.tutorData.profile}`
-//                     : "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1742236044~exp=1742239644~hmac=11114304d889bcec136a0b39da274795f9fb032e6c4ce92b5e7f2bc5032a4564&w=826"
-//                 }
-//                 alt={tutor.name}
-//                 className="w-full h-full object-cover"
-//               />
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-
-//       <div className="pt-20 pb-6 px-6 md:px-8">
-//         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-//           <div>
-//             <div className="flex items-center gap-2">
-//               <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-//                 {tutor.name}
-//               </h1>
-//               <span className="bg-blue-500 text-white p-0.5 rounded-full">
-//                 <CheckCircle size={16} />
-//               </span>
-//             </div>
-
-//             <div className="mt-3 flex flex-wrap gap-3">
-//               <div className="flex items-center text-gray-700 bg-gray-100 px-3 py-1 rounded-full text-sm">
-//                 <MapPin size={14} className="mr-1.5 text-indigo-500" />
-//                 <span>{tutor.tutorData?.City || "Unknown City"}</span>
-//               </div>
-//               <div className="flex items-center text-gray-700 bg-gray-100 px-3 py-1 rounded-full text-sm">
-//                 <Globe size={14} className="mr-1.5 text-indigo-500" />
-//                 <span>
-//                   {tutor.tutorData?.languages?.join(", ") || "Not Provided"}
-//                 </span>
-//               </div>
-//             </div>
-//           </div>
-
-//           <div className="flex flex-wrap gap-3 mt-4 md:mt-0">
-//             <div className="flex items-center gap-2">
-//               <div className="bg-amber-50 text-amber-700 px-3 py-1.5 rounded-lg font-semibold flex items-center">
-//                 <Star
-//                   size={16}
-//                   className="fill-amber-500 text-amber-500 mr-1"
-//                 />
-//                 <span>{tutor.rating || "4.0"}</span>
-//               </div>
-//               <div className="bg-blue-50 text-blue-700 px-3 py-1.5 rounded-lg font-semibold">
-//                 <span>Rs. {tutor.tutorData?.HourlyRate || "N/A"}</span>
-//                 <span className="text-xs text-blue-500 ml-1">/hr</span>
-//               </div>
-//             </div>
-
-//             <div className="flex gap-2">
-//               <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-1.5 px-4 rounded-lg transition-colors flex items-center">
-//                 <Calendar size={16} className="mr-2" />
-//                 Book a session
-//               </button>
-//               <button
-//                 onClick={handleSaveFavorite}
-//                 className={`${
-//                   isFavorite
-//                     ? "bg-indigo-600 text-white"
-//                     : "bg-white border border-indigo-200 hover:bg-indigo-50 text-indigo-600"
-//                 } font-medium py-1.5 px-4 rounded-lg transition-colors flex items-center`}
-//               >
-//                 <Heart size={16} className="mr-2" />
-//                 {isFavorite ? "Saved" : "Save"}
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-
-import React, { useState, useContext, useEffect } from "react";
-import axios from "axios";
-import { AppContent } from "../../../Context/AppContex";
+import { useState, useContext, useEffect } from "react"
+import axios from "axios"
+import { AppContent } from "../../../Context/AppContex"
 import {
   Heart,
   Star,
   MapPin,
-  Globe,
   Calendar,
   CheckCircle,
-} from "lucide-react";
+  Clock,
+  GraduationCap,
+  ChevronDown,
+  Zap,
+  Award,
+  Languages,
+  Briefcase,
+  MessageSquare,
+} from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 export default function HeaderCard({ tutor }) {
-  const [isFavorite, setIsFavorite] = useState(false);
-  const { backendUrl, userData } = useContext(AppContent);
+  const [isFavorite, setIsFavorite] = useState(false)
+  const [expanded, setExpanded] = useState(false)
+  const { backendUrl, userData } = useContext(AppContent)
+  const navigate = useNavigate()
 
-  // Check the favorite status when the component loads or userData/tutor changes
   useEffect(() => {
-    if (userData && tutor && tutor._id) {
+    if (userData && tutor?._id) {
       axios
         .get(`${backendUrl}/api/favorites/checkFavorite`, {
           params: { userId: userData._id, tutorId: tutor._id },
           withCredentials: true,
         })
-        .then((response) => {
-          setIsFavorite(response.data.isFavorite);
-        })
-        .catch((error) => {
-          console.error("Error checking favorite status:", error);
-        });
+        .then((response) => setIsFavorite(response.data.isFavorite))
+        .catch((error) => console.error("Error checking favorite status:", error))
     }
-  }, [userData, tutor, backendUrl]);
+  }, [userData, tutor, backendUrl])
 
-  useEffect(() => {
-    console.log("User data loaded:", userData);
-  }, [userData]);
-
-  const handleToggleFavorite = async () => {
-    if (!userData || !userData._id) {
-      console.error("User not logged in or user data not loaded.");
-      alert("Please log in to save favorites.");
-      return;
-    }
-
-    // Check if tutor data exists
-    if (!tutor || !tutor._id) {
-      console.error("Tutor data is invalid.");
-      alert("Invalid tutor data.");
-      return;
-    }
-
-    console.log("userId:", userData._id);
-    console.log("tutorId:", tutor._id);
-
-    // If already saved, remove from favorites
-    if (isFavorite) {
-      try {
-        const response = await axios.delete(
-          `${backendUrl}/api/favorites/RemoveFavorites/${tutor._id}`,
-          {
-            data: { userId: userData._id },
-            withCredentials: true,
-          }
-        );
-        console.log("Favorite removed successfully:", response.data);
-        setIsFavorite(false);
-      } catch (error) {
-        console.error(
-          "Error removing favorite:",
-          error.response?.data || error.message
-        );
-      }
-    } else {
-      // If not saved, add to favorites
-      try {
-        const response = await axios.post(
-          `${backendUrl}/api/favorites/AddFavorites`,
-          {
-            userId: userData._id,
-            tutorId: tutor._id,
-          },
-          { withCredentials: true }
-        );
-        console.log("Favorite saved successfully:", response.data);
-        setIsFavorite(true);
-      } catch (error) {
-        console.error(
-          "Error saving favorite:",
-          error.response?.data || error.message
-        );
-      }
-    }
-  };
-
-  if (!userData) {
-    return <div>Loading user data...</div>;
+  const handleBookNow = () => {
+    navigate("/book", {
+      state: {
+        tutorId: tutor._id,
+      },
+    })
   }
 
+  const handleSendMessage = () => {
+    navigate("/chat", {
+      state: {
+        tutorId: tutor._id,
+        tutorObj: tutor,
+      },
+    })
+  }
+
+  const availability = tutor?.tutorData?.availability || {}
+  const availableDaysCount = Object.values(availability).filter((slots) => slots && slots.length > 0).length
+
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-6">
-      <div className="bg-gradient-to-r from-indigo-500 to-blue-600 h-32 md:h-48 relative">
-        <div className="absolute -bottom-16 left-6 md:left-8">
-          <div className="w-32 h-32 md:w-40 md:h-40 rounded-xl bg-white p-1.5 shadow-lg">
-            <div className="w-full h-full rounded-lg overflow-hidden">
-              <img
-                src={
-                  tutor?.profile
-                    ? `https://utfs.io/f/${tutor.profile}`
-                    : "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1742236044~exp=1742239644~hmac=11114304d889bcec136a0b39da274795f9fb032e6c4ce92b5e7f2bc5032a4564&w=826"
-                }
-                alt={tutor.name}
-                className="w-full h-full object-cover"
-              />
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-6 border border-slate-100">
+      <div className="md:flex">
+        <div className="bg-gradient-to-br from-orange-400 to-orange-600 p-6 md:w-1/3 relative">
+          <div className="absolute inset-0 opacity-10">
+            <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <pattern id="grid" width="8" height="8" patternUnits="userSpaceOnUse">
+                <path d="M 8 0 L 0 0 0 8" fill="none" stroke="white" strokeWidth="0.5" />
+              </pattern>
+              <rect width="100%" height="100%" fill="url(#grid)" />
+            </svg>
+          </div>
+
+          <div className="relative z-10 flex flex-col items-center md:items-start">
+            <div className="relative mb-4">
+              <div className="w-28 h-28 rounded-xl bg-white p-1 shadow-lg">
+                <div className="w-full h-full rounded-lg overflow-hidden bg-orange-100">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTn5kP8NKJ3_kZczVgSU8RR5qM68RGVcP2QA&s"
+                    alt={tutor.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1 shadow-md">
+                <CheckCircle className="h-5 w-5 text-emerald-500 fill-white" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 w-full mt-2">
+              <StatCard icon={<Star className="h-3.5 w-3.5 text-amber-400 fill-amber-400" />} label="Rating" value={tutor.rating || "4.0"} />
+              <StatCard icon={<Clock className="h-3.5 w-3.5 text-emerald-400" />} label="Experience" value={`${tutor.tutorData?.Experience || "N/A"} yrs`} />
+              <StatCard icon={<Calendar className="h-3.5 w-3.5 text-blue-400" />} label="Available" value={`${availableDaysCount}/7 days`} />
+              <StatCard icon={<Zap className="h-3.5 w-3.5 text-purple-400" />} label="Price" value={`₹${tutor.tutorData?.HourlyRate || "N/A"}`} />
+            </div>
+
+            <div className="flex gap-2 w-full mt-4 md:hidden">
+              <ActionButton icon={<Calendar className="h-4 w-4" />} label="Book Now" onClick={handleBookNow} primary />
+              <ActionButton icon={<MessageSquare className="h-4 w-4" />} label="Send Message" onClick={handleSendMessage} />
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="pt-20 pb-6 px-6 md:px-8">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
-                {tutor.name}
-              </h1>
-              <span className="bg-blue-500 text-white p-0.5 rounded-full">
-                <CheckCircle size={16} />
-              </span>
-            </div>
+        <div className="p-6 md:p-8 md:w-2/3">
+          <div className="flex flex-col h-full">
+            <div className="flex justify-between items-start">
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold text-slate-800">{tutor.name}</h1>
+                <p className="text-slate-500 mt-1 flex items-center">
+                  <MapPin className="h-3.5 w-3.5 mr-1.5 inline" />
+                  {tutor.tutorData?.City || "Unknown City"}
+                </p>
+              </div>
 
-            <div className="mt-3 flex flex-wrap gap-3">
-              <div className="flex items-center text-gray-700 bg-gray-100 px-3 py-1 rounded-full text-sm">
-                <MapPin size={14} className="mr-1.5 text-indigo-500" />
-                <span>{tutor.tutorData?.City || "Unknown City"}</span>
-              </div>
-              <div className="flex items-center text-gray-700 bg-gray-100 px-3 py-1 rounded-full text-sm">
-                <Globe size={14} className="mr-1.5 text-indigo-500" />
-                <span>
-                  {tutor.tutorData?.languages?.join(", ") || "Not Provided"}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap gap-3 mt-4 md:mt-0">
-            <div className="flex items-center gap-2">
-              <div className="bg-amber-50 text-amber-700 px-3 py-1.5 rounded-lg font-semibold flex items-center">
-                <Star size={16} className="fill-amber-500 text-amber-500 mr-1" />
-                <span>{tutor.rating || "4.0"}</span>
-              </div>
-              <div className="bg-blue-50 text-blue-700 px-3 py-1.5 rounded-lg font-semibold">
-                <span>Rs. {tutor.tutorData?.HourlyRate || "N/A"}</span>
-                <span className="text-xs text-blue-500 ml-1">/hr</span>
+              <div className="hidden md:flex gap-2">
+                <ActionButton icon={<Calendar className="h-4 w-4" />} label="Book Now" onClick={handleBookNow} primary />
+                <ActionButton icon={<MessageSquare className="h-4 w-4" />} label="Send Message" onClick={handleSendMessage} />
               </div>
             </div>
 
-            <div className="flex gap-2">
-              <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-1.5 px-4 rounded-lg transition-colors flex items-center">
-                <Calendar size={16} className="mr-2" />
-                Book a session
-              </button>
+            <div className="mt-4">
+              <h3 className="text-sm font-medium text-slate-500 mb-2">Subjects</h3>
+              <div className="flex flex-wrap gap-2">
+                {tutor.tutorData?.SelectedSubjects?.map((subject, index) => (
+                  <span key={index} className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm font-medium">
+                    {subject}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4">
+              <InfoItem icon={<GraduationCap className="h-4 w-4 text-slate-400" />} label="Education" value={(tutor.tutorData?.Qualifications || "Not specified").split(",")[0]} />
+              <InfoItem icon={<Languages className="h-4 w-4 text-slate-400" />} label="Languages" value={(tutor.tutorData?.languages || ["English"]).join(", ")} />
+              <InfoItem icon={<Briefcase className="h-4 w-4 text-slate-400" />} label="Teaching Mode" value={tutor.tutorData?.TeachingMode || "Online & Offline"} />
+            </div>
+
+            <div className="mt-auto pt-4">
               <button
-                onClick={handleToggleFavorite}
-                className={`${
-                  isFavorite
-                    ? "bg-indigo-600 text-white"
-                    : "bg-white border border-indigo-200 hover:bg-indigo-50 text-indigo-600"
-                } font-medium py-1.5 px-4 rounded-lg transition-colors flex items-center`}
+                onClick={() => setExpanded(!expanded)}
+                className="w-full flex items-center justify-center gap-1 text-sm text-slate-500 hover:text-slate-700"
               >
-                <Heart size={16} className="mr-2" />
-                {isFavorite ? "Saved" : "Save"}
+                {expanded ? "Show less" : "Show more"}
+                <ChevronDown className={`h-4 w-4 transition-transform ${expanded ? "rotate-180" : ""}`} />
               </button>
+
+              {expanded && (
+                <div className="mt-4 pt-4 border-t border-slate-100 animate-fadeIn">
+                  <h3 className="text-sm font-medium text-slate-500 mb-2">About</h3>
+                  <p className="text-slate-600 text-sm">
+                    {tutor.tutorData?.aboutMe ||
+                      "An experienced tutor dedicated to helping students achieve their academic goals through personalized learning approaches."}
+                  </p>
+
+                  <div className="mt-4 flex gap-2">
+                    <ActionButton icon={<MessageSquare className="h-4 w-4" />} label="Send Message" onClick={handleSendMessage} />
+                    <ActionButton icon={<Calendar className="h-4 w-4" />} label="Book Now" onClick={handleBookNow} primary />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
+}
+
+function StatCard({ icon, label, value }) {
+  return (
+    <div className="bg-white rounded-lg shadow-sm p-3 text-center">
+      <div className="mb-2">{icon}</div>
+      <p className="text-xs text-slate-500">{label}</p>
+      <p className="text-lg font-semibold text-slate-700">{value}</p>
+    </div>
+  )
+}
+
+function ActionButton({ icon, label, onClick, primary }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`w-full ${primary ? "bg-blue-500 hover:bg-blue-600 text-white" : "bg-white border text-blue-600 hover:bg-blue-50 border-blue-200"} font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2`}
+    >
+      {icon}
+      <span className="text-sm">{label}</span>
+    </button>
+  )
+}
+
+function InfoItem({ icon, label, value }) {
+  return (
+    <div className="flex items-center gap-2">
+      {icon}
+      <div>
+        <p className="text-xs text-slate-500">{label}</p>
+        <p className="font-semibold text-sm text-slate-700">{value}</p>
+      </div>
+    </div>
+  )
 }
