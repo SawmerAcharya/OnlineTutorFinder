@@ -95,7 +95,7 @@ function SlideBars() {
           <BiDollar className="mr-3" size={20} /> <span>Earnings</span>
         </li>
         <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/settings')}`}
-            onClick={() => navigate('/settings')}>
+            onClick={() => navigate('//tutor/Setting/:tutorId')}>
           <FiSettings className="mr-3" size={20} /> <span>Settings</span>
         </li>
       </ul>

@@ -1,9 +1,9 @@
 import React from "react";
-import { FaPhone, FaInstagram, FaTwitter, FaFacebook, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import { FaPhone, FaInstagram, FaFacebook, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 
 function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-orange-400 to-orange-600 text-white py-12"> {/* Change to light orange gradient */}
+    <footer className="bg-gradient-to-r from-orange-400 to-orange-600 text-white py-12"> 
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Contact Section */}
         <div>

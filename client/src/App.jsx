@@ -26,13 +26,14 @@ import ProfileInfo from "./Components/Students/ViewProfile/ProfileInfo" //tutor 
 import Favorites from "./Components/Students/Favorites";
 import Profile from "./Components/Students/Profile"; //Student profile
 import Chat from "./Components/Chat/Chat";
-import Book from "./Components/Book/Book";
+// import Book from "./Components/Book/Book";
 
 import RejectionCard from "./Components/Tutor/ApplicationStatus/RejectionCard";
 import PendingCard from "./Components/Tutor/ApplicationStatus/PendingCard";
 
 import PaymentFailed from "./Components/Students/PaymentStatus/PaymentFailed";
 import PaymentSuccess from "./Components/Students/PaymentStatus/PaymentSuccess";
+import TutorBook from "./Components/Book/TutorBook";
 
 
 
@@ -76,7 +77,7 @@ function App() {
           <Route path="/chat" element={<Chat />} />   
           <Route path="/failed" element={<PaymentFailed />} />   
           <Route path="/success" element={<PaymentSuccess />} />   
-          <Route path="/book" element={<Book />} />   
+          <Route path="/TutorBook" element={<TutorBook />} />   
 
 
         </Routes>
