@@ -77,7 +77,7 @@ function App() {
           <Route path="/chat" element={<Chat />} />   
           <Route path="/failed" element={<PaymentFailed />} />   
           <Route path="/success" element={<PaymentSuccess />} />   
-          <Route path="/TutorBook" element={<TutorBook />} />   
+          <Route path="/TutorBook/:tutorId" element={<TutorBook />} />   
 
 
         </Routes>

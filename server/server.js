@@ -1,109 +1,3 @@
-// import express from "express";
-// import cors from "cors";
-// import cookieParser from "cookie-parser";
-// import session from "express-session";
-// import passport from "./config/passport.js"
-// import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-// import 'dotenv/config';
-
-// import connectDB from "./config/db.js";
-// import authRouter from "./routes/authRoutes.js";
-// import userRouter from "./routes/userRoutes.js";
-// import { createRouteHandler } from "uploadthing/express";
-// import { uploadRouter } from "./routes/uploadthing.js";
-// import oauthRouter from "./routes/oauthRoutes.js";
-// import favoritesRouter from "./routes/favoritesRoutes.js";
-
-// const app = express();
-// const port = process.env.PORT || 5001;
-
-// // Connect to database
-// connectDB();
-
-// // Allowed Origins for CORS
-// const allowedOrigins = ["http://localhost:3000"];
-
-// // Middleware
-// app.use(express.json());
-// app.use(cookieParser());
-// app.use(
-//   cors({
-//     origin: function (origin, callback) {
-//       if (!origin || allowedOrigins.includes(origin)) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//     credentials: true,
-//   })
-// );
-
-// // Session setup
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET || 'default_secret', // Fallback if SESSION_SECRET is not set
-//     resave: false,
-//     saveUninitialized: false,  // Only create session if authenticated
-//     cookie: {
-//       secure: process.env.NODE_ENV === 'production', // Only set cookie over HTTPS in production
-//       httpOnly: true, // Ensures the cookie can't be accessed via JavaScript
-//       maxAge: 24 * 60 * 60 * 1000 // Cookie expiration time (24 hours)
-//     }
-//   })
-// );
-
-// // Passport middleware
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// // passport.use(
-// //   new GoogleStrategy(
-// //     {
-// //       clientID: process.env.GOOGLE_CLIENT_ID,
-// //       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-// //       callbackURL: process.env.CALLBACK_URL,
-// //     },
-// //     (accessToken, refreshToken, profile, done) => {
-// //       console.log("Google Profile:", profile); // Debugging
-
-// //       return done(null, profile); // Save profile data in the session
-// //     }
-// //   )
-// // );
-
-// // // Serialize the user into the session
-// // passport.serializeUser((user, done) => {
-// //   done(null, user);
-// // });
-
-// // // Deserialize the user from the session
-// // passport.deserializeUser((user, done) => {
-// //   done(null, user);
-// // });
-
-// // Routes
-// app.use("/api/auth", authRouter);
-// app.use("/api/user", userRouter);
-// app.use("/api/auth", oauthRouter);
-// app.use("/api/uploadthing", createRouteHandler({ router: uploadRouter }));
-// app.use("/api/favorites", favoritesRouter);
-
-// // Debugging
-// console.log("CORS configured for", allowedOrigins);
-
-// // Root Endpoint
-// app.get("/", (req, res) => res.send("API is Working"));
-
-// // Global Error Handling Middleware
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-//   res.status(500).json({ error: "Internal Server Error" });
-// });
-
-// // Start Server
-// app.listen(port, () => console.log(`Server started on PORT:${port}`));
-
 
 
 
@@ -115,10 +9,10 @@ import passport from "./config/passport.js";
 import { createRouteHandler } from "uploadthing/express";
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
-import chatRouter from "./routes/chatRoutes.js"; // Chat routes
+import chatRouter from "./routes/chatRoutes.js"; 
 import bookingRoutes from "./routes/bookingRoutes.js";
 import oauthRouter from "./routes/oauthRoutes.js";
-import favoritesRouter from "./routes/favoritesRoutes.js";
+// import favoritesRouter from "./routes/favoritesRoutes.js";
 import connectDB from "./config/db.js";
 import http from "http";
 import { Server } from "socket.io";
@@ -126,6 +20,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { uploadRouter } from "./routes/uploadthing.js";
 import paymentRouter from "./routes/paymentRoutes.js"
+// import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -175,10 +70,11 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/chat", chatRouter); 
 app.use("/api/auth", oauthRouter);
-app.use("/api/favorites", favoritesRouter);
+// app.use("/api/favorites", favoritesRouter);
 app.use("/api/uploadthing", createRouteHandler({ router: uploadRouter }));
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/payments', paymentRouter);
+// app.use("/api/dashboard", dashboardRoutes);
 
 app.get("/", (req, res) => res.send("API is Working"));
 

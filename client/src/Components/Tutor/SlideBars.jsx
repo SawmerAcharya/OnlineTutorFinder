@@ -54,9 +54,10 @@
 
 import React from 'react';
 import { FiHome, FiUser, FiMessageSquare, FiSettings } from 'react-icons/fi';
-import { BiDollar } from 'react-icons/bi';
+
 import { RiCalendarScheduleLine } from 'react-icons/ri';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { BiBook } from 'react-icons/bi';
 
 function SlideBars() {
   const navigate = useNavigate();
@@ -90,10 +91,10 @@ function SlideBars() {
             onClick={() => navigate('/schedules')}>
           <RiCalendarScheduleLine className="mr-3" size={20} /> <span>Schedules</span>
         </li>
-        <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/earnings')}`}
-            onClick={() => navigate('/earnings')}>
-          <BiDollar className="mr-3" size={20} /> <span>Earnings</span>
-        </li>
+            <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/earnings')}`}
+        onClick={() => navigate('/earnings')}>
+      <BiBook className="mr-3" size={20} /> <span>Assignment</span>
+    </li>
         <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/settings')}`}
             onClick={() => navigate('//tutor/Setting/:tutorId')}>
           <FiSettings className="mr-3" size={20} /> <span>Settings</span>

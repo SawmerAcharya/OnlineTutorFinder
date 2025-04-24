@@ -306,61 +306,6 @@ export const resetPassword = async (req, res) => {
 };
 
 
-
-// export const updatePassword = async (req, res) => {
-//   // // Check if the user is authenticated (req.user should be populated by userAuth)
-//   // if (!req.user) {
-//   //   return res.status(401).json({ 
-//   //     success: false, 
-//   //     message: "Unauthorized: User not authenticated." 
-//   //   });
-//   // }
-  
-//   // Destructure the fields from the request body
-//   const { currentPassword, newPassword, confirmPassword } = req.body;
-//   const userId = req.user.id; // Now safe to access
-
-//   // Validate that all fields are provided
-//   if (!currentPassword || !newPassword || !confirmPassword) {
-//     return res.status(400).json({ 
-//       success: false, 
-//       message: "All fields (current password, new password, and confirm password) are required." 
-//     });
-//   }
-
-//   // Ensure newPassword and confirmPassword match
-//   if (newPassword !== confirmPassword) {
-//     return res.status(400).json({ 
-//       success: false, 
-//       message: "New password and confirm password do not match." 
-//     });
-//   }
-
-//   try {
-//     const user = await userModel.findById(userId);
-//     if (!user) {
-//       return res.status(404).json({ success: false, message: "User not found." });
-//     }
-
-//     // Check if the provided current password matches the stored password
-//     const isMatch = await bcrypt.compare(currentPassword, user.password);
-//     if (!isMatch) {
-//       return res.status(400).json({ success: false, message: "Current password is incorrect." });
-//     }
-
-//     // Hash the new password and update the user record
-//     const hashedPassword = await bcrypt.hash(newPassword, 10);
-//     user.password = hashedPassword;
-//     await user.save();
-
-//     return res.status(200).json({ success: true, message: "Password updated successfully!" });
-//   } catch (error) {
-//     return res.status(500).json({ success: false, message: error.message });
-//   }
-// };
-
-
-
 export const updatePassword = async (req, res) => {
   // Destructure the fields from the request body
   const { userId, currentPassword, newPassword, confirmPassword } = req.body;

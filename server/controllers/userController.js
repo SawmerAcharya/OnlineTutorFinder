@@ -410,6 +410,29 @@ export const updateTutorProfile = async (req, res) => {
   }
 };
 
+export const getDashboardStats = async (req, res) => {
+  try {
+    const users = await userModel.find();
+
+    const totalUsers = users.length;
+    const totalTutors = users.filter(user => user.role === 'tutor').length;
+    const totalStudents = users.filter(user => user.role === 'student').length;
+    const pendingTutors = users.filter(
+      user => user.role === 'tutor' && user.tutorData?.status === 'pending'
+    ).length;
+
+    res.status(200).json({
+      totalUsers,
+      totalTutors,
+      totalStudents,
+      pendingTutors,
+    });
+  } catch (error) {
+    console.error('Error fetching dashboard stats:', error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
 export const saveUserProfile = async (req, res) => {
   try {
     const { userId, phone, gender, grade, address, languages, aboutMe, learningLocation } = req.body;

@@ -72,40 +72,6 @@ export const getChatHistory = async (req, res) => {
   }
 };
 
-// Get all conversation partners for a user
-// export const getConversationPartners = async (req, res) => {
-//   const { userId } = req.query;
-//   if (!userId) {
-//     return res
-//       .status(400)
-//       .json({ success: false, message: "userId query param is required" });
-//   }
-
-//   try {
-//     // Find all chat messages where userId is either sender or receiver
-//     const chats = await chatModel.find({
-//       $or: [{ sender: userId }, { receiver: userId }],
-//     });
-
-//     // Collect the *other* user IDs from each chat
-//     const conversationPartnerIds = new Set();
-//     for (const chat of chats) {
-//       if (String(chat.sender) !== userId) {
-//         conversationPartnerIds.add(String(chat.sender));
-//       }
-//       if (String(chat.receiver) !== userId) {
-//         conversationPartnerIds.add(String(chat.receiver));
-//       }
-//     }
-
-//     // Fetch the actual user objects for those partner IDs
-//     const tutors = await userModel.find({ _id: { $in: [...conversationPartnerIds] } });
-//     return res.status(200).json({ success: true, tutors });
-//   } catch (error) {
-//     console.error("Error in getConversationPartners:", error);
-//     return res.status(500).json({ success: false, message: "Internal Server Error" });
-//   }
-// };
 
 
 // Get conversation partners based on existing chat messages
