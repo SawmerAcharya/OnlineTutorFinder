@@ -56,7 +56,10 @@ function Header() {
   const handleInboxClick = () => {
     navigate("/chat");
   };
+  const handleAssigmentClick = () => {
+    navigate("/Assignmentdata")
 
+  }
   return (
     <div className="bg-white p-4 flex justify-between items-center shadow-md">
       {/* Logo */}
@@ -96,6 +99,12 @@ function Header() {
                     onClick={handleInboxClick}
                   >
                     Inbox
+                  </li>
+                  <li
+                    className="py-1 px-4 hover:bg-gray-200 cursor-pointer"
+                    onClick={handleAssigmentClick}
+                  >
+                    Assigment
                   </li>
                   <li
                     className="py-1 px-4 hover:bg-gray-200 cursor-pointer"

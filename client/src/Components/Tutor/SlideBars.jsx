@@ -1,15 +1,21 @@
-// import React, { useState } from 'react';
-// import { FiHome, FiUser, FiMessageSquare } from 'react-icons/fi';
-// import { BiDollar } from "react-icons/bi";
-// import { RiCalendarScheduleLine } from "react-icons/ri";
+
+
+// import React from 'react';
+// import { FiHome, FiUser, FiMessageSquare, FiSettings } from 'react-icons/fi';
+
+// import { RiCalendarScheduleLine } from 'react-icons/ri';
+// import { useNavigate, useLocation } from 'react-router-dom';
+// import { BiBook } from 'react-icons/bi';
 
 // function SlideBars() {
-//   // State to manage the active menu item
-//   const [activeItem, setActiveItem] = useState('Dashboard');
+//   const navigate = useNavigate();
+//   const location = useLocation();
 
-//   // Function to handle clicking on a menu item
-//   const handleMenuItemClick = (item) => {
-//     setActiveItem(item);
+//   // Function to check if a menu item is active
+//   const isActive = (path) => location.pathname === path ? 'bg-gray-100' : 'hover:bg-gray-100';
+
+//   const handleLogout = () => {
+//     navigate('/login');
 //   };
 
 //   return (
@@ -18,29 +24,34 @@
 //         <h1 className="text-xl font-bold">TutorHub</h1>
 //       </div>
 //       <ul className="flex-grow">
-//         <li className={`flex items-center px-5 py-3 ${activeItem === 'Dashboard' ? 'bg-gray-100' : 'hover:bg-gray-100'} cursor-pointer`}
-//             onClick={() => handleMenuItemClick('Dashboard')}>
+//         <li className="flex items-center px-5 py-3 cursor-pointer bg-gray-100">
 //           <FiHome className="mr-3" size={20} /> <span>Dashboard</span>
 //         </li>
-//         <li className={`flex items-center px-5 py-3 ${activeItem === 'Users' ? 'bg-gray-100' : 'hover:bg-gray-100'} cursor-pointer`}
-//             onClick={() => handleMenuItemClick('Users')}>
+//         <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/students')}`}
+//             onClick={() => navigate('/std')}>
 //           <FiUser className="mr-3" size={20} /> <span>Students</span>
 //         </li>
-//         <li className={`flex items-center px-5 py-3 ${activeItem === 'Messages' ? 'bg-gray-100' : 'hover:bg-gray-100'} cursor-pointer`}
-//             onClick={() => handleMenuItemClick('Messages')}>
+//         <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/messages')}`}
+//             onClick={() => navigate('/messages')}>
 //           <FiMessageSquare className="mr-3" size={20} /> <span>Messages</span>
 //         </li>
-//         <li className={`flex items-center px-5 py-3 ${activeItem === 'Analytics' ? 'bg-gray-100' : 'hover:bg-gray-100'} cursor-pointer`}
-//             onClick={() => handleMenuItemClick('Analytics')}>
+//         <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/schedules')}`}
+//             onClick={() => navigate('/schedules')}>
 //           <RiCalendarScheduleLine className="mr-3" size={20} /> <span>Schedules</span>
 //         </li>
-//         <li className={`flex items-center px-5 py-3 ${activeItem === 'Settings' ? 'bg-gray-100' : 'hover:bg-gray-100'} cursor-pointer`}
-//             onClick={() => handleMenuItemClick('Settings')}>
-//           <BiDollar className="mr-3" size={20} /> <span>Earning</span>
+//             <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/UploadAssignmentForm')}`}
+//         onClick={() => navigate('/UploadAssignmentForm')}>
+//       <BiBook className="mr-3" size={20} /> <span>Assignment</span>
+//     </li>
+//         <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/settings')}`}
+//             onClick={() => navigate('//tutor/Setting/:tutorId')}>
+//           <FiSettings className="mr-3" size={20} /> <span>Settings</span>
 //         </li>
 //       </ul>
 //       <div className="px-5 py-4 mt-auto">
-//         <button className="py-3 px-4 w-full bg-blue-800 rounded-lg text-sm text-white hover:bg-blue-900 transition-colors duration-200">
+//         <button 
+//           onClick={handleLogout} 
+//           className="py-3 px-4 w-full bg-blue-800 rounded-lg text-sm text-white hover:bg-blue-900 transition-colors duration-200">
 //           Logout
 //         </button>
 //       </div>
@@ -51,19 +62,16 @@
 // export default SlideBars;
 
 
-
 import React from 'react';
-import { FiHome, FiUser, FiMessageSquare, FiSettings } from 'react-icons/fi';
-
+import { FiHome, FiUser, FiMessageSquare, FiSettings, FiCalendar, FiBookOpen } from 'react-icons/fi';
 import { RiCalendarScheduleLine } from 'react-icons/ri';
+import { BiBook, BiCalendarCheck } from 'react-icons/bi';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { BiBook } from 'react-icons/bi';
 
 function SlideBars() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Function to check if a menu item is active
   const isActive = (path) => location.pathname === path ? 'bg-gray-100' : 'hover:bg-gray-100';
 
   const handleLogout = () => {
@@ -75,31 +83,44 @@ function SlideBars() {
       <div className="px-5 py-4">
         <h1 className="text-xl font-bold">TutorHub</h1>
       </div>
+      
       <ul className="flex-grow">
-        <li className="flex items-center px-5 py-3 cursor-pointer bg-gray-100">
+        <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/tutor')}`}
+            onClick={() => navigate('/tutor')}>
           <FiHome className="mr-3" size={20} /> <span>Dashboard</span>
         </li>
-        <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/students')}`}
+
+        <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/std')}`}
             onClick={() => navigate('/std')}>
           <FiUser className="mr-3" size={20} /> <span>Students</span>
         </li>
+
         <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/messages')}`}
             onClick={() => navigate('/messages')}>
           <FiMessageSquare className="mr-3" size={20} /> <span>Messages</span>
         </li>
+
         <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/schedules')}`}
             onClick={() => navigate('/schedules')}>
           <RiCalendarScheduleLine className="mr-3" size={20} /> <span>Schedules</span>
         </li>
-            <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/earnings')}`}
-        onClick={() => navigate('/earnings')}>
-      <BiBook className="mr-3" size={20} /> <span>Assignment</span>
-    </li>
-        <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/settings')}`}
-            onClick={() => navigate('//tutor/Setting/:tutorId')}>
+
+        <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/UploadAssignmentForm')}`}
+            onClick={() => navigate('/UploadAssignmentForm')}>
+          <BiBook className="mr-3" size={20} /> <span>Assignments</span>
+        </li>
+
+        <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/Bookinglist')}`}
+            onClick={() => navigate('/Bookinglist')}>
+          <BiCalendarCheck className="mr-3" size={20} /> <span>Bookings</span>
+        </li>
+
+        <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/tutorSetting')}`}
+            onClick={() => navigate('/tutorSetting')}>
           <FiSettings className="mr-3" size={20} /> <span>Settings</span>
         </li>
       </ul>
+
       <div className="px-5 py-4 mt-auto">
         <button 
           onClick={handleLogout} 

@@ -10,79 +10,79 @@ import ResetPassword from "./Components/ResetPassword";
 import RegistrationPortal from "./Components/Form/RegistrationPortal";
 
 import TutorProfile from "./Components/Admin/ViewProfile";
-import Dashboard from './Components/Admin/Dashboard'
-import TutorList from "./Components/Admin/TutorList";  //Tutor registered list displayed in the admin dashboard
-import StudentList from "./Components/Students/StudentList"; //student registered list displayed in the admin dashboard
+import Dashboard from './Components/Admin/Dashboard';
+import TutorList from "./Components/Admin/TutorList";  
+import StudentList from "./Components/Students/StudentList"; 
 
-import TutorDashboard from './Components/Tutor/TutorDashboard'
-import ProfileTutor from "./Components/Tutor/Profile/ProfileTutor"; //Tutor profile
-import TutorSettings from './Components/Tutor/Profile/TutorSettings'
+import TutorDashboard from './Components/Tutor/TutorDashboard';
+import ProfileTutor from "./Components/Tutor/Profile/ProfileTutor"; 
+import TutorSettings from './Components/Tutor/Profile/TutorSettings';
 import TutorStudent from "./Components/Tutor/Profile/TutorStudent"; 
 import TutorMessages from "./Components/Tutor/Message/Message";
-
-import Homepage from "./Components/Homepage";  // Main default dashboard 
+import UploadAssignmentForm from "./Components/Tutor/Assigment/UploadAssignmentForm";
+import BookingViewDetails from "./Components/Tutor/BookingViewDetails";
+import Homepage from "./Components/Homepage";  
 import SearchTutor from "./Components/SearchTutor";
-import ProfileInfo from "./Components/Students/ViewProfile/ProfileInfo" //tutor details where student can see through their dashboard
-import Favorites from "./Components/Students/Favorites";
-import Profile from "./Components/Students/Profile"; //Student profile
+import ProfileInfo from "./Components/Students/ViewProfile/ProfileInfo";
+import Assignmentdata from "./Components/Students/Assignmentdata";
+import Assignmentdetail from "./Components/Students/Assignmentdetail";
+import Profile from "./Components/Students/Profile"; 
 import Chat from "./Components/Chat/Chat";
-// import Book from "./Components/Book/Book";
-
+import TutorStd from "./Components/Tutor/TutorsStd";
 import RejectionCard from "./Components/Tutor/ApplicationStatus/RejectionCard";
 import PendingCard from "./Components/Tutor/ApplicationStatus/PendingCard";
-
+import Bookinglist from "./Components/Tutor/Bookinglist";
 import PaymentFailed from "./Components/Students/PaymentStatus/PaymentFailed";
 import PaymentSuccess from "./Components/Students/PaymentStatus/PaymentSuccess";
 import TutorBook from "./Components/Book/TutorBook";
 
-
-
 function App() {
   return (
     <div className="main">
-    <ToastContainer position="top-right" autoClose={3000}/>
-    <Router>
-      {" "}
-      {/* Router component to provide navigation functionality */}
-      <div>
-        {" "}
-        {/* Main container for all routes */}
+      <ToastContainer position="top-right" autoClose={3000} />
+      <Router>
+        <div>
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/SearchTutor" element={<SearchTutor />} />        
+            <Route path="/login" element={<Login />} />        
+            <Route path="/SignupForm" element={<SignupForm />} />       
+            <Route path="/verify-email" element={<EmailVerify />} />       
+            <Route path="/ResetPassword" element={<ResetPassword />} />
+
+            <Route path="/students" element={<StudentList />} />       
+            <Route path="/tutors" element={<TutorList />} />       
+            <Route path="/Messages" element={<TutorMessages />} />       
+                
+            <Route path="/form" element={<RegistrationPortal />} />       
+            <Route path="/admin" element={<Dashboard />} />       
+            <Route path="/profile/:tutorId" element={<TutorProfile />} />      
+            <Route path="/tutor" element={<TutorDashboard />} /> 
+            <Route path="/tutor/profile/:tutorId" element={<ProfileTutor />} />
+            <Route path="/tutor/Setting/:tutorId" element={<TutorSettings />} />
         
-        <Routes>
-          <Route path="/" element={<Homepage />} /> 
-          <Route path="/SearchTutor" element={< SearchTutor />} />        
-          <Route path="/login" element={<Login />} />        
-          <Route path="/SignupForm" element={<SignupForm />} />       
-          <Route path="/verify-email" element={<EmailVerify />} />       
-          <Route path="/ResetPassword" element={<ResetPassword />} />
-
-          <Route path="/students" element={<StudentList />} />       
-          <Route path="/tutors" element={<TutorList />} />       
-          <Route path="/Messages" element={<TutorMessages />} />       
-               
-          <Route path="/form" element={<RegistrationPortal />} />       
-          <Route path="/admin" element={<Dashboard />} />       
-          <Route path="/profile/:tutorId" element={<TutorProfile />} />      
-          <Route path="/tutor" element={<TutorDashboard />} /> 
-          <Route path="/tutor/profile/:tutorId" element={<ProfileTutor />} />
-          <Route path="/tutor/Setting/:tutorId" element={<TutorSettings />} />
-
-          <Route path="/Rejected" element={<RejectionCard />} />          
-          <Route path="/Pending" element={<PendingCard />} />           
-          <Route path="/tutor/:id" element={<ProfileInfo />} /> 
-           
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/fav" element={<Favorites />} />  
-          <Route path="/tutorStudent" element={<TutorStudent />} />
-          <Route path="/chat" element={<Chat />} />   
-          <Route path="/failed" element={<PaymentFailed />} />   
-          <Route path="/success" element={<PaymentSuccess />} />   
-          <Route path="/TutorBook/:tutorId" element={<TutorBook />} />   
+            <Route path="/Rejected" element={<RejectionCard />} />          
+            <Route path="/Pending" element={<PendingCard />} />           
+            <Route path="/tutor/:id" element={<ProfileInfo />} /> 
+            
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/assignment/:id" element={<Assignmentdetail />} />
+            <Route path="/tutorStudent" element={<TutorStudent />} />
+            <Route path="/Assignmentdata" element={<Assignmentdata />} />
+            <Route path="/Assignmentdetail/:id" element={<Assignmentdetail />} />
+            <Route path="/std" element={<TutorStd />} />
+            <Route path="/chat" element={<Chat />} />   
+            <Route path="/failed" element={<PaymentFailed />} />   
+            <Route path="/success" element={<PaymentSuccess />} />   
+            <Route path="/TutorBook/:tutorId" element={<TutorBook />} />   
+            <Route path="/UploadAssignmentForm" element={<UploadAssignmentForm />} />
+            <Route path="/Bookinglist" element={<Bookinglist />} />
+            <Route path="/BookingViewDetails/:bookingId" element={<BookingViewDetails />} />
 
 
-        </Routes>
-      </div>
-    </Router>
+          </Routes>
+        </div>
+      </Router>
     </div>
   );
 }

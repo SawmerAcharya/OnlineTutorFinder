@@ -19,7 +19,8 @@ import { Server } from "socket.io";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { uploadRouter } from "./routes/uploadthing.js";
-import paymentRouter from "./routes/paymentRoutes.js"
+import assignmentRoutes from "./routes/assignmentRoutes.js";
+import paymentRouter from "./routes/paymentRoutes.js";
 // import dashboardRoutes from "./routes/dashboardRoutes.js";
 
 dotenv.config();
@@ -75,6 +76,7 @@ app.use("/api/uploadthing", createRouteHandler({ router: uploadRouter }));
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/payments', paymentRouter);
 // app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/assignments", assignmentRoutes);
 
 app.get("/", (req, res) => res.send("API is Working"));
 

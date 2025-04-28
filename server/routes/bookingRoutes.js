@@ -14,16 +14,20 @@
 
 // export default router;
 
-
 import express from "express";
-import { createBooking } from "../controllers/bookingController.js";
+import { createBooking, getBookingsByTutor, getAllBookings, getBookingById, getBookingsByStudent, updateBookingStatus, getActiveBookingUsers, removeStudentFromTutorList } from "../controllers/bookingController.js";
 
 const router = express.Router();
 
 // Create a new booking
 router.post("/book", createBooking);
-
-
+router.get("/tutor/getBooking/:tutorId", getBookingsByTutor);
+router.get("/getAllBookings", getAllBookings);
+router.get("/activeBookingUsers/:tutorId", getActiveBookingUsers);
+router.get("/:bookingId", getBookingById);
+router.get("/student/getBooking/:userId", getBookingsByStudent);
+router.put("/updateStatus/:bookingId", updateBookingStatus);
+router.post('/tutor/RemoveStudent', removeStudentFromTutorList);
 
 
 
