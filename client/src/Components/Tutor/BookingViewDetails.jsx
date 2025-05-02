@@ -1,13 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  X,
   User,
   Mail,
   Calendar,
   Clock,
   MessageSquare,
   Timer,
+  CheckCircle,
+  XCircle,
+  ArrowLeft,
+  AlertCircle,
 } from "lucide-react";
 import axios from "axios";
 import { AppContent } from "../../Context/AppContex";
@@ -43,7 +46,6 @@ function BookingViewDetails() {
         setLoading(false);
       }
     };
-
     if (bookingId) fetchBooking();
   }, [bookingId, backendUrl]);
 
@@ -51,14 +53,19 @@ function BookingViewDetails() {
     if (!bookingId || !booking) return;
 
     if (booking.status === newStatus) {
-      toast.info(`Booking is already marked as "${newStatus.replace(/-/g, " ")}".`);
+      toast.info(
+        `Booking is already marked as "${newStatus.replace(/-/g, " ")}".`
+      );
       return;
     }
 
-    const confirm = window.confirm(
-      `Are you sure you want to set the status to '${newStatus.replace(/-/g, " ")}'?`
+    const confirmAction = window.confirm(
+      `Are you sure you want to set the status to '${newStatus.replace(
+        /-/g,
+        " "
+      )}'?`
     );
-    if (!confirm) return;
+    if (!confirmAction) return;
 
     setUpdating(true);
     try {
@@ -71,7 +78,10 @@ function BookingViewDetails() {
       if (response.data.success) {
         setBooking((prev) => ({ ...prev, status: newStatus }));
         toast.success(
-          `Booking for ${booking.userId.name} marked as "${newStatus.replace(/-/g, " ")}".`
+          `Booking for ${booking.userId.name} marked as "${newStatus.replace(
+            /-/g,
+            " "
+          )}".`
         );
         setTimeout(() => {
           navigate("/Bookinglist");
@@ -90,151 +100,312 @@ function BookingViewDetails() {
     }
   };
 
-  if (loading)
-    return <p className="p-4 text-center">Loading booking details...</p>;
-  if (error)
-    return <p className="p-4 text-center text-red-600">Error: {error}</p>;
-  if (!booking) return <p className="p-4 text-center">No booking found.</p>;
+  const handleCloseBooking = async () => {
+    if (!window.confirm("Are you sure you want to close this booking?")) return;
+
+    setUpdating(true);
+    try {
+      const res = await axios.put(
+        `${backendUrl}/api/bookings/tutorClose/${bookingId}`,
+        {},
+        { withCredentials: true }
+      );
+      if (res.data.success) {
+        setBooking((b) => ({
+          ...b,
+          status: res.data.booking.status,
+        }));
+        toast.success(
+          "Booking marked completed and awaiting student confirmation."
+        );
+        setTimeout(() => navigate("/Bookinglist"), 1500);
+      } else {
+        toast.error("Failed to close booking.");
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error("Error: " + (e.response?.data?.message || e.message));
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const getStatusBadgeStyles = (status) => {
+    const baseClasses =
+      "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium";
+
+    if (status.includes("confirmed")) {
+      return `${baseClasses} bg-emerald-50 text-emerald-700 border border-emerald-200`;
+    } else if (status.includes("cancelled") || status.includes("refunded")) {
+      return `${baseClasses} bg-red-50 text-red-700 border border-red-200`;
+    } else if (status.includes("pending")) {
+      return `${baseClasses} bg-amber-50 text-amber-700 border border-amber-200`;
+    } else {
+      return `${baseClasses} bg-violet-50 text-violet-700 border border-violet-200`;
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    if (status.includes("confirmed")) {
+      return <CheckCircle size={16} className="text-emerald-600" />;
+    } else if (status.includes("cancelled") || status.includes("refunded")) {
+      return <XCircle size={16} className="text-red-600" />;
+    } else {
+      return <AlertCircle size={16} className="text-amber-600" />;
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-pulse flex flex-col items-center">
+          <div className="h-12 w-12 bg-violet-200 rounded-full mb-4"></div>
+          <div className="h-4 w-48 bg-violet-200 rounded mb-2"></div>
+          <div className="h-3 w-32 bg-violet-200 rounded"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-xl shadow-lg p-6 max-w-md w-full border border-red-100">
+          <div className="flex flex-col items-center text-center">
+            <div className="bg-red-100 p-3 rounded-full mb-4">
+              <AlertCircle className="text-red-600" size={32} />
+            </div>
+            <h2 className="text-xl font-semibold mb-2">
+              Error Loading Booking
+            </h2>
+            <p className="text-gray-600 mb-6">{error}</p>
+            <button
+              onClick={() => navigate(-1)}
+              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 font-medium transition-colors flex items-center"
+            >
+              <ArrowLeft size={16} className="mr-2" />
+              Go Back
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!booking) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-xl shadow-lg p-6 max-w-md w-full border border-violet-100">
+          <div className="flex flex-col items-center text-center">
+            <div className="bg-violet-100 p-3 rounded-full mb-4">
+              <AlertCircle className="text-violet-600" size={32} />
+            </div>
+            <h2 className="text-xl font-semibold mb-2">No Booking Found</h2>
+            <p className="text-gray-600 mb-6">
+              The booking you're looking for doesn't exist or has been removed.
+            </p>
+            <button
+              onClick={() => navigate(-1)}
+              className="px-4 py-2 bg-violet-100 hover:bg-violet-200 rounded-lg text-violet-700 font-medium transition-colors flex items-center"
+            >
+              <ArrowLeft size={16} className="mr-2" />
+              Go Back
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const { userId, startDate, endDate, startTime, dailyHour, message, status } =
     booking;
 
-  const formatDate = (isoString) => new Date(isoString).toLocaleDateString();
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+    return date.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
+
+  const showManage = status === "payment-received-awaiting-tutor-confirmation";
+  const showClose = status === "payment-received-and-tutor-confirmed";
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-lg w-full max-w-2xl overflow-hidden">
-        {/* Header */}
-        <div className="bg-[#2563EB] p-4 flex justify-between items-center">
-          <h2 className="text-white text-xl font-semibold">Booking Details</h2>
-          <button onClick={() => navigate(-1)}>
-            <X className="text-white" size={24} />
-          </button>
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white rounded-xl shadow-md overflow-hidden border border-violet-100">
+          <div className="bg-gradient-to-r from-violet-600 to-purple-600 p-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div>
+                <h1 className="text-2xl font-bold text-white">
+                  Booking Details
+                </h1>
+                <p className="text-violet-100 mt-1">
+                  Review and manage the booking request
+                </p>
+              </div>
+              <div className="mt-4 md:mt-0">
+                <div className={getStatusBadgeStyles(status)}>
+                  {getStatusIcon(status)}
+                  <span className="capitalize">
+                    {status.replace(/-/g, " ")}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-1">
+                <div className="bg-white border border-violet-100 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                  <div className="bg-violet-50 px-4 py-3 border-b border-violet-100">
+                    <div className="flex items-center">
+                      <User className="text-violet-600 mr-2" size={18} />
+                      <h3 className="font-semibold text-violet-800">
+                        Student Information
+                      </h3>
+                    </div>
+                  </div>
+                  <div className="p-5 space-y-5">
+                    <InfoBlock
+                      icon={User}
+                      label="Full Name"
+                      value={userId.name}
+                    />
+                    <InfoBlock
+                      icon={Mail}
+                      label="Email Address"
+                      value={userId.email}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:col-span-2 space-y-6">
+                <div className="bg-white border border-violet-100 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                  <div className="bg-violet-50 px-4 py-3 border-b border-violet-100">
+                    <div className="flex items-center">
+                      <Calendar className="text-violet-600 mr-2" size={18} />
+                      <h3 className="font-semibold text-violet-800">
+                        Session Details
+                      </h3>
+                    </div>
+                  </div>
+                  <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <InfoBlock
+                      icon={Calendar}
+                      label="Start Date"
+                      value={formatDate(startDate)}
+                    />
+                    <InfoBlock
+                      icon={Calendar}
+                      label="End Date"
+                      value={formatDate(endDate)}
+                    />
+                    <InfoBlock
+                      icon={Clock}
+                      label="Start Time"
+                      value={startTime}
+                    />
+                    <InfoBlock
+                      icon={Timer}
+                      label="Daily Hours"
+                      value={`${dailyHour} hours`}
+                    />
+                  </div>
+                </div>
+
+                <div className="bg-white border border-violet-100 rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                  <div className="bg-violet-50 px-4 py-3 border-b border-violet-100">
+                    <div className="flex items-center">
+                      <MessageSquare
+                        className="text-violet-600 mr-2"
+                        size={18}
+                      />
+                      <h3 className="font-semibold text-violet-800">
+                        Additional Information
+                      </h3>
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <div className="bg-gray-50 rounded-lg p-5 hover:bg-violet-50 transition-colors">
+                      <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
+                        {message || "No additional information provided."}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-col sm:flex-row justify-end gap-3">
+              <button
+                onClick={() => navigate(-1)}
+                className="px-6 py-3 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-colors flex items-center justify-center"
+              >
+                <ArrowLeft size={18} className="mr-2" /> Close
+              </button>
+
+              {showManage && (
+                <>
+                  <button
+                    disabled={updating}
+                    onClick={() => handleStatusUpdate("refunded-and-cancelled")}
+                    className={`px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 ${
+                      updating
+                        ? "bg-red-100 text-red-400 cursor-not-allowed"
+                        : "bg-red-50 border border-red-200 text-red-600 hover:bg-red-100"
+                    }`}
+                  >
+                    <XCircle size={18} /> Reject Booking
+                  </button>
+                  <button
+                    disabled={updating}
+                    onClick={() =>
+                      handleStatusUpdate("payment-received-and-tutor-confirmed")
+                    }
+                    className={`px-6 py-3 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 ${
+                      updating
+                        ? "bg-violet-100 text-violet-400 cursor-not-allowed"
+                        : "bg-gradient-to-r from-violet-600 to-purple-600 text-white hover:from-violet-700 hover:to-purple-700"
+                    }`}
+                  >
+                    <CheckCircle size={18} /> Accept Booking
+                  </button>
+                </>
+              )}
+
+              {showClose && (
+                <button
+                  disabled={updating}
+                  onClick={handleCloseBooking}
+                  className="px-6 py-3 bg-violet-100 text-violet-700 rounded-lg font-medium hover:bg-violet-200 transition-colors flex items-center justify-center "
+                >
+                  Booking Closed
+                </button>
+              )}
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
+  );
+}
 
-        {/* Content */}
-        <div className="p-6 space-y-8">
-          {/* Student Information */}
-          <div className="bg-gray-50 rounded-xl p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <User className="text-[#2563EB]" size={24} />
-              <h3 className="text-lg font-semibold">Student Information</h3>
-            </div>
-            <div className="grid grid-cols-1 gap-4">
-              <div className="bg-white rounded-lg p-4 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <User size={20} className="text-gray-400" />
-                  <div>
-                    <div className="text-sm text-gray-500">Full Name</div>
-                    <div className="font-medium">{userId.name}</div>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white rounded-lg p-4 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <Mail size={20} className="text-gray-400" />
-                  <div>
-                    <div className="text-sm text-gray-500">Email</div>
-                    <div className="font-medium">{userId.email}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Session Details */}
-          <div className="bg-gray-50 rounded-xl p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Calendar className="text-[#2563EB]" size={24} />
-              <h3 className="text-lg font-semibold">Session Details</h3>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-white rounded-lg p-4 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <Calendar size={20} className="text-gray-400" />
-                  <div>
-                    <div className="text-sm text-gray-500">Start Date</div>
-                    <div className="font-medium">{formatDate(startDate)}</div>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white rounded-lg p-4 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <Calendar size={20} className="text-gray-400" />
-                  <div>
-                    <div className="text-sm text-gray-500">End Date</div>
-                    <div className="font-medium">{formatDate(endDate)}</div>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white rounded-lg p-4 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <Clock size={20} className="text-gray-400" />
-                  <div>
-                    <div className="text-sm text-gray-500">Start Time</div>
-                    <div className="font-medium">{startTime}</div>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white rounded-lg p-4 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <Timer size={20} className="text-gray-400" />
-                  <div>
-                    <div className="text-sm text-gray-500">Daily Hours</div>
-                    <div className="font-medium">{dailyHour} hours</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Additional Information */}
-          <div className="bg-gray-50 rounded-xl p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <MessageSquare className="text-[#2563EB]" size={24} />
-              <h3 className="text-lg font-semibold">Additional Information</h3>
-            </div>
-            <div className="bg-white rounded-lg p-4 shadow-sm">
-              {message || "N/A"}
-            </div>
-          </div>
-
-          {/* Current Status */}
-          <div className="bg-gray-50 rounded-xl p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Clock className="text-[#2563EB]" size={24} />
-              <h3 className="text-lg font-semibold">Current Status</h3>
-            </div>
-            <div className="inline-block bg-yellow-50 border border-yellow-200 text-yellow-700 px-4 py-2 rounded-full text-sm">
-              {status.replace(/-/g, " ")}
-            </div>
-          </div>
+function InfoBlock({ icon: Icon, label, value }) {
+  return (
+    <div className="bg-gray-50 rounded-lg p-5 hover:bg-violet-50 transition-colors">
+      <div className="flex items-start">
+        <div className="bg-violet-100 p-3 rounded-full mr-4">
+          <Icon size={20} className="text-violet-600" />
         </div>
-
-        {/* Footer */}
-        <div className="p-6 border-t border-gray-100 flex justify-end gap-3">
-          <button
-            onClick={() => navigate(-1)}
-            className="px-6 py-2.5 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 font-medium"
-          >
-            Close
-          </button>
-          <button
-            disabled={updating}
-            onClick={() => handleStatusUpdate("refunded-and-cancelled")}
-            className="px-6 py-2.5 bg-red-50 border border-red-100 text-red-600 rounded-lg hover:bg-red-100 font-medium flex items-center gap-2"
-          >
-            <X size={18} />
-            Reject Booking
-          </button>
-          <button
-            disabled={updating}
-            onClick={() => handleStatusUpdate("payment-received-and-tutor-confirmed")}
-            className="px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium flex items-center gap-2"
-          >
-            <Calendar size={18} />
-            Accept Booking
-          </button>
+        <div>
+          <p className="text-sm text-gray-500 mb-1">{label}</p>
+          <p className="font-medium text-gray-900">{value}</p>
         </div>
       </div>
     </div>

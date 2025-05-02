@@ -168,7 +168,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import passport from "./config/passport.js";
-import submissionRoutes from "./routes/submissionRoutes.js";
+// import submissionRoutes from "./routes/submissionRoutes.js";
 
 import { createRouteHandler } from "uploadthing/express";
 import authRouter from "./routes/authRoutes.js";
@@ -184,6 +184,8 @@ import dotenv from "dotenv";
 import { uploadRouter } from "./routes/uploadthing.js"; // ✅ Your UploadThing routes
 import assignmentRoutes from "./routes/assignmentRoutes.js";
 import paymentRouter from "./routes/paymentRoutes.js";
+import withdrawalRouter from "./routes/withdrawalRoutes.js";
+import zoomRouter from "./routes/zoomRouter.js";
 
 dotenv.config();
 const app = express();
@@ -237,9 +239,12 @@ app.use("/api/uploadthing", createRouteHandler({ router: uploadRouter }));
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/payments", paymentRouter);
 app.use("/api/assignments", assignmentRoutes);
-app.use("/api/assignments", submissionRoutes);
+// app.use("/api/assignments", submissionRoutes);
 // Root test route
 app.get("/", (req, res) => res.send("API is Working"));
+app.use("/api", withdrawalRouter);
+app.use("/api/zoom", zoomRouter);
+
 
 // Global error handler
 app.use((err, req, res, next) => {

@@ -35,7 +35,10 @@ import Bookinglist from "./Components/Tutor/Bookinglist";
 import PaymentFailed from "./Components/Students/PaymentStatus/PaymentFailed";
 import PaymentSuccess from "./Components/Students/PaymentStatus/PaymentSuccess";
 import TutorBook from "./Components/Book/TutorBook";
-
+import WithdrawPage from "./Components/Tutor/WithdrawPage";
+import Withdrawalsrequest from "./Components/Admin/WithrequestPage";
+import BookingHistory from "./Components/Students/BookingHistory";
+import BookingDetails from "./Components/Students/bookingDetails.jsx";
 function App() {
   return (
     <div className="main">
@@ -53,6 +56,8 @@ function App() {
             <Route path="/students" element={<StudentList />} />       
             <Route path="/tutors" element={<TutorList />} />       
             <Route path="/Messages" element={<TutorMessages />} />       
+            <Route path="/mybooking" element={<BookingHistory />} />       
+            <Route path="/details/:bookingId" element={<BookingDetails />} />       
                 
             <Route path="/form" element={<RegistrationPortal />} />       
             <Route path="/admin" element={<Dashboard />} />       
@@ -78,6 +83,8 @@ function App() {
             <Route path="/UploadAssignmentForm" element={<UploadAssignmentForm />} />
             <Route path="/Bookinglist" element={<Bookinglist />} />
             <Route path="/BookingViewDetails/:bookingId" element={<BookingViewDetails />} />
+            <Route path="/withdraw" element={<WithdrawPage />} />
+            <Route path="/withdrawalsreq" element={<Withdrawalsrequest />} />
 
 
           </Routes>

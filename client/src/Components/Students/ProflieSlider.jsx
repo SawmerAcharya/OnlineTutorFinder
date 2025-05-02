@@ -219,7 +219,7 @@ const ProfileSidebar = () => {
             active={activeTab === "/profile"}
           />
           <NavItem
-            to="/bookings"
+            to="/mybooking"
             icon={<BookOpen />}
             label="My bookings"
             active={activeTab === "/bookings"}

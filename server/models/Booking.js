@@ -37,10 +37,9 @@ const bookingSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["awaiting-payment","payment-received-awaiting-tutor-confirmation", "payment-received-and-tutor-confirmed", "refunded-and-cancelled"],
+      enum: ["awaiting-payment","payment-received-awaiting-tutor-confirmation", "payment-received-and-tutor-confirmed", "refunded-and-cancelled", "booking-completed-and-awaiting-student-confirmation","booking-completed-and-student-confirmed", "booking-completion-rejected-by-student"],
       default: "awaiting-payment",
     },
-
 
   },
   { timestamps: true }

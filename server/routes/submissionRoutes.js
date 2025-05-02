@@ -1,13 +1,13 @@
 // routes/submissionRoutes.js
-import express from "express";
-import { submitAssignment, getAssignmentsubmission } from "../controllers/submissionController.js";
+// import express from "express";
+// import { submitAssignment, getAssignmentsubmission } from "../controllers/submissionController.js";
 
-const router = express.Router();
+// const router = express.Router();
 
-// Student submission
-router.post("/:id/submit", submitAssignment);
+// // Student submission
+// router.post("/:id/submit", submitAssignment);
 
-// Tutor view submissions
-router.get("/:id/submissions", getAssignmentsubmission);
+// // Tutor view submissions
+// router.get("/:id/submissions", getAssignmentsubmission);
 
-export default router;
+// export default router;

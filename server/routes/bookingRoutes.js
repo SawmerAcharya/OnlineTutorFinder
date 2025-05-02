@@ -15,7 +15,7 @@
 // export default router;
 
 import express from "express";
-import { createBooking, getBookingsByTutor, getAllBookings, getBookingById, getBookingsByStudent, updateBookingStatus, getActiveBookingUsers, removeStudentFromTutorList } from "../controllers/bookingController.js";
+import { createBooking, getBookingsByTutor, getAllBookings, getBookingById, getBookingsByStudent, updateBookingStatus, getActiveBookingUsers, removeStudentFromTutorList , closeBookingByStudent, closeBookingByTutor} from "../controllers/bookingController.js";
 
 const router = express.Router();
 
@@ -28,6 +28,8 @@ router.get("/:bookingId", getBookingById);
 router.get("/student/getBooking/:userId", getBookingsByStudent);
 router.put("/updateStatus/:bookingId", updateBookingStatus);
 router.post('/tutor/RemoveStudent', removeStudentFromTutorList);
+router.put('/tutorClose/:bookingId', closeBookingByTutor);
+router.put('/studentClose/:bookingId', closeBookingByStudent);
 
 
 

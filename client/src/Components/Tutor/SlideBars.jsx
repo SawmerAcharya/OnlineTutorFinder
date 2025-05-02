@@ -99,10 +99,14 @@ function SlideBars() {
             onClick={() => navigate('/messages')}>
           <FiMessageSquare className="mr-3" size={20} /> <span>Messages</span>
         </li>
-
-        <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/schedules')}`}
-            onClick={() => navigate('/schedules')}>
-          <RiCalendarScheduleLine className="mr-3" size={20} /> <span>Schedules</span>
+        <li
+          className={`flex items-center px-5 py-3 cursor-pointer ${isActive(
+            "/withdraw"
+          )}`}
+          onClick={() => navigate("/withdraw")}
+        >
+          <span className="mr-3 font-bold">Rs</span>
+          <span>Withdrawals</span>
         </li>
 
         <li className={`flex items-center px-5 py-3 cursor-pointer ${isActive('/UploadAssignmentForm')}`}
