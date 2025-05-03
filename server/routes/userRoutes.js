@@ -1,7 +1,7 @@
 import express from 'express'
 import userAuth from '../middleware/userAuth.js';
 import { getUserData,setUserRole } from '../controllers/userController.js';
-import { getAllTutors, getTutorById, updateTutorStatus, getTutorInfo, getAllStudents, deleteStudent, deleteTutor, getAllApproveTutors, updateTutorProfile, saveUserProfile, getStudentInfo ,getDashboardStats} from '../controllers/userController.js';
+import { getAllTutors, getTutorById, updateTutorStatus, getTutorInfo, getAllStudents, deleteStudent,savePaymentInfo, deleteTutor, getAllApproveTutors, updateTutorProfile, saveUserProfile, getStudentInfo ,getDashboardStats} from '../controllers/userController.js';
 
 
 const userRouter = express.Router();
@@ -28,7 +28,7 @@ userRouter.get('/dashboard/stats', getDashboardStats);
 
 // Adding the route for fetching student information
 userRouter.get('/student/:id', getStudentInfo);
-
+userRouter.post('/tutors/:id/payment-info', userAuth, savePaymentInfo);
 
 // Route to get all students
 userRouter.get('/students', getAllStudents);

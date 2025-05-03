@@ -1,3 +1,6 @@
+
+
+
 import { WithdrawalModel } from "../models/RequestWithdrawls.js";
 import { balanceModel } from "../models/paymentModel.js";
 import userModel from "../models/userModel.js"
@@ -77,12 +80,18 @@ export const processWithdrawal = async (req, res) => {
       return res.status(400).json({ success: false, message: "Insufficient balance at time of processing. Withdrawal marked as failed." });
     }
 
-    // Deduct the amount now
+    // Calculate fee and payout
+    const adminFee = parseFloat((withdrawal.amount * 0.10).toFixed(2));
+    const payoutAmount = withdrawal.amount - adminFee;
+
+    // Deduct total from tutor's balance
     balanceDoc.balance -= withdrawal.amount;
     await balanceDoc.save();
 
     // Mark as completed
     withdrawal.status = "completed";
+    withdrawal.adminFee = adminFee;           
+    withdrawal.payoutAmount = payoutAmount;  
     await withdrawal.save();
 
     res.status(200).json({
@@ -134,5 +143,29 @@ export const getWithdrawalHistory = async (req, res) => {
   } catch (error) {
     console.error("Error fetching withdrawal history:", error);
     res.status(500).json({ success: false, message: "Server error." });
+  }
+};
+
+
+export const getTotalEarnings = async (req, res) => {
+  try {
+    const { token } = req.cookies;
+    if (!token) return res.status(401).json({ success: false, message: "Unauthorized" });
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const tutorId = decoded.id;
+
+    // Calculate total earnings = sum of all completed payouts
+    const completedWithdrawals = await WithdrawalModel.find({
+      tutorId,
+      status: "completed",
+    });
+
+    const total = completedWithdrawals.reduce((sum, w) => sum + w.payoutAmount, 0);
+
+    res.status(200).json({ success: true, totalEarnings: total });
+  } catch (err) {
+    console.error("Error fetching total earnings:", err);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };

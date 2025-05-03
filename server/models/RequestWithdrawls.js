@@ -11,6 +11,14 @@ const withdrawalSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    adminFee: {
+      type: Number,
+      default: 0, // 10% of the amount
+    },
+    payoutAmount: {
+      type: Number,
+      default: 0, // 90% of the amount
+    },
     status: {
       type: String,
       enum: ["pending", "completed", "failed"],

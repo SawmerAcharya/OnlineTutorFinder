@@ -39,6 +39,7 @@ import WithdrawPage from "./Components/Tutor/WithdrawPage";
 import Withdrawalsrequest from "./Components/Admin/WithrequestPage";
 import BookingHistory from "./Components/Students/BookingHistory";
 import BookingDetails from "./Components/Students/bookingDetails.jsx";
+import PaymentSetupForm from "./Components/Tutor/Accountpaymentsetup/PaymentSetupForm.jsx";
 function App() {
   return (
     <div className="main">
@@ -85,7 +86,10 @@ function App() {
             <Route path="/BookingViewDetails/:bookingId" element={<BookingViewDetails />} />
             <Route path="/withdraw" element={<WithdrawPage />} />
             <Route path="/withdrawalsreq" element={<Withdrawalsrequest />} />
-
+            <Route
+              path="/tutor/PaymentSetup/:tutorId"
+              element={<PaymentSetupForm />}
+            />
 
           </Routes>
         </div>

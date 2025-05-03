@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getZoomAccessToken } from "./getzoomacesstoken.js";
 
 /**
  * Create a recurring Zoom meeting (daily).
@@ -8,8 +9,14 @@ import axios from "axios";
  * @param {number} numberOfDays - Total number of recurring days.
  * @returns {Promise<Object>} - Zoom API response with meeting details.
  */
-export async function createRecurringZoomMeeting(topic, startTime, duration, numberOfDays) {
+export async function createRecurringZoomMeeting(
+  topic,
+  startTime,
+  duration,
+  numberOfDays
+) {
   try {
+    const accessToken = await getZoomAccessToken();
     const response = await axios.post(
       `${process.env.ZOOM_API_BASE_URL}/users/${process.env.ZOOM_USER_ID}/meetings`,
       {
@@ -21,20 +28,20 @@ export async function createRecurringZoomMeeting(topic, startTime, duration, num
         recurrence: {
           type: 1, // Daily
           repeat_interval: 1, // Every day
-          end_times: numberOfDays
+          end_times: numberOfDays,
         },
         settings: {
           host_video: true,
           participant_video: true,
           join_before_host: true,
-          waiting_room: false
-        }
+          waiting_room: false,
+        },
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.ZOOM_OAUTH_TOKEN}`,
-          "Content-Type": "application/json"
-        }
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
       }
     );
 
@@ -42,7 +49,7 @@ export async function createRecurringZoomMeeting(topic, startTime, duration, num
       meetingId: response.data.id,
       startUrl: response.data.start_url,
       joinUrl: response.data.join_url,
-      occurrences: response.data.occurrences
+      occurrences: response.data.occurrences,
     };
   } catch (error) {
     console.error("Zoom API error:", error.response?.data || error.message);

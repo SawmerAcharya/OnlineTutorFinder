@@ -239,10 +239,11 @@ app.use("/api/uploadthing", createRouteHandler({ router: uploadRouter }));
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/payments", paymentRouter);
 app.use("/api/assignments", assignmentRoutes);
+app.use("/api", withdrawalRouter);
 // app.use("/api/assignments", submissionRoutes);
 // Root test route
 app.get("/", (req, res) => res.send("API is Working"));
-app.use("/api", withdrawalRouter);
+
 app.use("/api/zoom", zoomRouter);
 
 

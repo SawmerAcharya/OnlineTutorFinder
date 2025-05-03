@@ -19,6 +19,7 @@ export const getUserData = async (req, res)=>{
       role:user.role,
       profile:user.profile,
       tutorData:user.tutorData,
+      paymentInfo:user.paymentInfo,
       isAccountVerified: user.isAccountVerified
     }     
   });
@@ -474,6 +475,62 @@ export const saveUserProfile = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "An error occurred while saving the profile",
+    });
+  }
+};
+export const savePaymentInfo = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { accountHolderName, bankName, accountNumber } = req.body;
+
+    if (!accountHolderName || !bankName || !accountNumber) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "All fields (accountHolderName, bankName, accountNumber) are required.",
+      });
+    }
+
+    const tutor = await userModel.findById(id);
+    if (!tutor) {
+      return res.status(404).json({
+        success: false,
+        message: "Tutor not found.",
+      });
+    }
+
+    if (tutor.role !== "tutor") {
+      return res.status(400).json({
+        success: false,
+        message: "This operation is only allowed for tutors.",
+      });
+    }
+
+    // ✅ Save to root-level paymentInfo field
+    tutor.paymentInfo = {
+      accountHolderName,
+      bankName,
+      accountNumber,
+    };
+
+    await tutor.save();
+
+    const maskedAccountNumber = "**" + accountNumber.slice(-4);
+
+    return res.status(200).json({
+      success: true,
+      message: "Payment information saved successfully.",
+      data: {
+        accountHolderName,
+        bankName,
+        accountNumber: maskedAccountNumber,
+      },
+    });
+  } catch (error) {
+    console.error("Error saving payment info:", error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while saving payment information.",
     });
   }
 };

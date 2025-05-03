@@ -28,6 +28,9 @@ export default function Withdrawalsrequest() {
   }, []);
 
   const handleRequestClick = (request) => {
+    console.log("Selected Request:", request);
+    console.log("Admin Fee:", request.adminFee);
+    console.log("Payout Amount:", request.payoutAmount);
     setSelectedRequest(request);
     setIsDialogOpen(true);
   };
@@ -86,6 +89,10 @@ export default function Withdrawalsrequest() {
       ? filteredRequests.reduce((sum, request) => sum + request.amount, 0)
       : 0;
 
+  const totalAdminFees = requests.reduce(
+    (sum, r) => sum + (r.adminFee || 0),
+    0
+  );
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
@@ -132,8 +139,26 @@ export default function Withdrawalsrequest() {
                 <p className="text-emerald-600 text-sm">To be processed</p>
               </div>
             </div>
+
+            {/* Total Admin Revenue */}
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <div className="p-5 pb-2">
+                <h2 className="text-lg font-medium text-gray-900">
+                  Admin Revenue
+                </h2>
+              </div>
+              <div className="p-5">
+                <div className="text-3xl font-bold text-gray-900">
+                  Rs {totalAdminFees.toFixed(2)}
+                </div>
+                <p className="text-sm text-gray-500">
+                  Earned from withdrawal fees
+                </p>
+              </div>
+            </div>
           </div>
 
+          {/* Filters */}
           <div className="mb-6">
             <div className="flex border-b border-gray-200">
               {[
@@ -168,6 +193,7 @@ export default function Withdrawalsrequest() {
             </div>
           </div>
 
+          {/* Table */}
           <div className="border border-gray-200 rounded-lg overflow-hidden">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
@@ -281,7 +307,7 @@ export default function Withdrawalsrequest() {
                       Pending
                     </span>
                   </div>
-                  <div className="grid grid-cols-2 gap-6">
+                  {/* <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-1">
                       <p className="text-sm text-gray-500">Tutor</p>
                       <p className="font-medium">
@@ -297,7 +323,45 @@ export default function Withdrawalsrequest() {
                         Rs {selectedRequest.amount.toFixed(2)}
                       </p>
                     </div>
+                  </div> */}
+
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="space-y-1">
+                      <p className="text-sm text-gray-500">Tutor</p>
+                      <p className="font-medium">
+                        {selectedRequest.tutorId.name}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        ID: {selectedRequest.tutorId._id}
+                      </p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-sm text-gray-500">Requested Amount</p>
+                      <p className="font-medium text-gray-900">
+                        Rs {selectedRequest.amount.toFixed(2)}
+                      </p>
+                    </div>
+                    <div className="space-y-1">
+                      <p className="text-sm text-gray-500">Admin Fee (10%)</p>
+                      <p className="font-medium text-red-600">
+                        Rs{" "}
+                        {selectedRequest.adminFee > 0
+                          ? selectedRequest.adminFee.toFixed(2)
+                          : (selectedRequest.amount * 0.1).toFixed(2)}
+                      </p>
+                    </div>
+                    {/* Final Payout now in a separate column */}
+                    <div className="space-y-1">
+                      <p className="text-sm text-gray-500">Final Payout</p>
+                      <p className="font-bold text-emerald-700">
+                        Rs{" "}
+                        {selectedRequest.payoutAmount > 0
+                          ? selectedRequest.payoutAmount.toFixed(2)
+                          : (selectedRequest.amount * 0.9).toFixed(2)}
+                      </p>
+                    </div>
                   </div>
+
                   <div className="flex items-center gap-2 text-sm text-gray-500 bg-gray-100 p-3 rounded-md">
                     <CalendarDays className="h-4 w-4" />
                     <span>
