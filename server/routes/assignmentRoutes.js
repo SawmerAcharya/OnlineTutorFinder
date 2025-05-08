@@ -1,13 +1,34 @@
 import express from "express";
-import { uploadAssignment, getAllAssignments } from "../controllers/assignmentController.js";
+import {
+  createAssignment,
+  getAssignmentsByTutor,
+  getAssignmentById,
+  deleteAssignment,
+  updateAssignmentStatus,
+  updateAssignment,
+  getSubmissionsByTutor,
+} from "../controllers/assignmentController.js";
+import userAuth from "../middleware/userAuth.js";
 
-const router = express.Router();
+const assignmentRouter = express.Router();
 
-// POST to upload new assignment
-router.post("/upload", uploadAssignment);
+// Create assignment
+assignmentRouter.post("/createAssignment", userAuth, createAssignment);
 
-// GET all assignments
-router.get("/", getAllAssignments);
+// Get all assignments by current tutor
+assignmentRouter.get("/tutorAllAssignment", userAuth, getAssignmentsByTutor);
 
+// Get single assignment
+assignmentRouter.get("/:id", userAuth, getAssignmentById);
 
-export default router;
+// Delete assignment
+assignmentRouter.delete("/delete/:id", userAuth, deleteAssignment);
+
+// Update assignment status (optional)
+assignmentRouter.patch("/update-status/:id", userAuth, updateAssignmentStatus);
+
+assignmentRouter.put("/update/:id", userAuth, updateAssignment);
+
+assignmentRouter.get("/submissions/tutor", userAuth, getSubmissionsByTutor);
+
+export default assignmentRouter;

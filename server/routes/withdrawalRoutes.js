@@ -13,7 +13,7 @@
 
 // export default withdrawalRouter;
 import express from "express";
-import { requestWithdrawal, processWithdrawal, getAllWithdrawals, getWithdrawalHistory, getTotalEarnings } from "../controllers/withdrawalController.js";
+import { requestWithdrawal, processWithdrawal, getAllWithdrawals, getWithdrawalHistory, getTotalEarnings} from "../controllers/withdrawalController.js";
 
 const withdrawalRouter = express.Router();
 

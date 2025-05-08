@@ -28,3 +28,28 @@
 // const submissionModel = mongoose.models.Submission || mongoose.model("Submission", submissionSchema);
 
 // export default submissionModel;
+
+
+
+import mongoose from "mongoose";
+
+const submissionSchema = new mongoose.Schema(
+  {
+    assignmentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Assignment",
+      required: true,
+    },
+    studentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    files: [{ type: String }],
+    feedback: { type: String },
+    submittedAt: { type: Date, default: Date.now },
+  },
+  { timestamps: true }
+);
+
+export default mongoose.model("submission", submissionSchema);

@@ -51,7 +51,7 @@ import userModel from "../models/userModel.js";
 const f = createUploadthing();
 
 export const uploadRouter = {
-  // ✅ Image uploader (uses shorthand format)
+  // ✅ Image uploader
   imageUploader: f({
     image: {
       maxFileSize: "4MB",
@@ -61,7 +61,7 @@ export const uploadRouter = {
     console.log("Image upload completed", data);
   }),
 
-  // ✅ Profile image uploader (uses shorthand + zod input)
+  // ✅ Profile uploader with zod input validation
   profileUploader: f({
     image: {
       maxFileSize: "4MB",
@@ -73,19 +73,16 @@ export const uploadRouter = {
       return { input };
     })
     .onUploadComplete(async (data) => {
-      console.log("input", data.metadata.input);
       const user = await userModel.findById(data.metadata.input.user_id);
-
       if (user) {
         user.profile = data.file.key;
         await user.save();
       }
-
       console.log("Profile upload completed", data.metadata);
       return { file: data.file.key };
     }),
 
-  // ✅ Assignment File Uploader (uses full MIME type config)
+  // ✅ Assignment file uploader
   assignmentUploader: f({
     "application/pdf": { maxFileSize: "8MB" },
     "image/*": { maxFileSize: "8MB" },
@@ -96,7 +93,7 @@ export const uploadRouter = {
     return { fileUrl: file.url };
   }),
 
-  // ✅ Course Material Uploader (uses full MIME type config)
+  // ✅ Course material uploader
   courseMaterialUploader: f({
     "application/pdf": { maxFileSize: "8MB" },
     "application/vnd.openxmlformats-officedocument.presentationml.presentation": { maxFileSize: "8MB" },
@@ -106,4 +103,58 @@ export const uploadRouter = {
     console.log("Course material uploaded:", file.url);
     return { fileUrl: file.url };
   }),
+
+  // ✅ General file uploader for tutors/students
+  fileUploader: f({
+    "application/pdf": { maxFileSize: "10MB" },
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": { maxFileSize: "10MB" },
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation": { maxFileSize: "10MB" },
+    "application/xml": { maxFileSize: "5MB" },
+    "text/xml": { maxFileSize: "5MB" },
+    "image/png": { maxFileSize: "8MB" },
+    "image/jpeg": { maxFileSize: "8MB" },
+    "image/jpg": { maxFileSize: "8MB" },
+    "image/gif": { maxFileSize: "8MB" },
+    "image/webp": { maxFileSize: "8MB" },
+  })
+    .input(
+      z
+        .object({
+          assignmentId: z.string().optional(),
+          studentId: z.string().optional(),
+          uploadedBy: z.enum(["tutor", "student"]).optional(),
+        })
+        .optional()
+    )
+    .middleware(({ input }) => {
+      return { input };
+    })
+    .onUploadComplete(async ({ file, metadata }) => {
+      const input = metadata.input || {};
+      const { assignmentId, studentId, uploadedBy } = input;
+
+      console.log("File uploaded:", file);
+      if (studentId && assignmentId) {
+        console.log("Student submitted file for assignment:", {
+          studentId,
+          assignmentId,
+        });
+
+        // Optional: Save to DB
+        // await Submission.create({
+        //   assignmentId,
+        //   studentId,
+        //   files: [file.url],
+        // });
+      } else {
+        console.log("Tutor uploaded file (materials/resources).");
+      }
+
+      return {
+        fileUrl: file.url,
+        uploadedBy,
+        assignmentId,
+        studentId,
+      };
+    }),
 };

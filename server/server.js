@@ -174,7 +174,7 @@ import { createRouteHandler } from "uploadthing/express";
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import chatRouter from "./routes/chatRoutes.js"; 
-import bookingRoutes from "./routes/bookingRoutes.js";
+import bookingRoutes from "./routes/bookingRoutesV2.js";
 import oauthRouter from "./routes/oauthRoutes.js";
 import connectDB from "./config/db.js";
 import http from "http";
@@ -182,7 +182,8 @@ import { Server } from "socket.io";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { uploadRouter } from "./routes/uploadthing.js"; // ✅ Your UploadThing routes
-import assignmentRoutes from "./routes/assignmentRoutes.js";
+import assignmentRouter from "./routes/assignmentroutes.js";  
+import StudentAssignmentRouter from "./routes/studentAssignmentRoutes.js";
 import paymentRouter from "./routes/paymentRoutes.js";
 import withdrawalRouter from "./routes/withdrawalRoutes.js";
 import zoomRouter from "./routes/zoomRouter.js";
@@ -238,7 +239,8 @@ app.use("/api/auth", oauthRouter);
 app.use("/api/uploadthing", createRouteHandler({ router: uploadRouter }));
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/payments", paymentRouter);
-app.use("/api/assignments", assignmentRoutes);
+app.use("/api/assignments", assignmentRouter);
+app.use("/api/assignments/student", StudentAssignmentRouter);
 app.use("/api", withdrawalRouter);
 // app.use("/api/assignments", submissionRoutes);
 // Root test route

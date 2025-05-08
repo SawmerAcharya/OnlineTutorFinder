@@ -125,5 +125,3 @@ export async function verifyEsewaPayment(encodedData) {
     throw error;
   }
 }
-
-

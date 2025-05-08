@@ -40,12 +40,12 @@ const UserSchema = new mongoose.Schema({
       message: 'tutorData must be an object when the role is "tutor"',
     },
   },
-  paymentInfo: {
-    accountHolderName: { type: String, required: true },
-    bankName: { type: String, required: true },
-    accountNumber: { type: String, required: true },
-  },
-  favorites: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
+   paymentInfo: {
+    accountHolderName: { type: String, default: "" },
+    bankName: { type: String, default: "" },
+    accountNumber: { type: String, default: "" },
+  // favorites: [{ type: Schema.Types.ObjectId, ref: "User", default: [] }],
+   }
 });
 
 
