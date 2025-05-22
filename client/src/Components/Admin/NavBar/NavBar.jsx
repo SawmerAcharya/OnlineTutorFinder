@@ -124,12 +124,7 @@ function NavBar({ setSearchTerm  }) {
 
       {/* Notification Bell & User Avatar */}
       <div className="flex items-center relative">
-        <button className="text-black-500 relative">
-          <FiBell size={24} />
-          <span className="absolute -top-2 -right-2 px-2 py-1 text-xs font-bold text-white bg-red-600 rounded-full">
-            3
-          </span>
-        </button>
+        
 
         {/* Avatar & Dropdown */}
         <div className="relative ml-8">
@@ -137,12 +132,7 @@ function NavBar({ setSearchTerm  }) {
             <Avatar className="w-10 h-10" />
           </div>
 
-          {/* Dropdown Menu */}
-          {isDropdownOpen && (
-            <div ref={dropdownRef} className="absolute right-0 mt-2 w-48 z-50">
-              <DropdownMenu />
-            </div>
-          )}
+          
         </div>
       </div>
     </div>

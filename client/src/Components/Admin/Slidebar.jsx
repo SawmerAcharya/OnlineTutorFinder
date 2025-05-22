@@ -173,6 +173,8 @@ import React from "react";
 import { FiHome, FiUser, FiSettings } from "react-icons/fi";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Receipt } from "lucide-react";
+
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -213,6 +215,15 @@ function Sidebar() {
         >
           <FiUser className="mr-3" size={20} />
           <span>Students</span>
+        </li>
+        <li
+          className={`flex items-center px-5 py-3 cursor-pointer ${isActive(
+            "/admin/payment-history"
+          )}`}
+          onClick={() => navigate("/admin/payment-history")}
+        >
+          <Receipt className="mr-3" size={20} />
+          <span>Payment History</span>
         </li>
 
         <li

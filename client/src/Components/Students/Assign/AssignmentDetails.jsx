@@ -1,3 +1,5 @@
+
+
 import { useContext, useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ChevronLeft, File, Download, Upload } from "lucide-react";
@@ -15,15 +17,16 @@ export default function AssignmentDetails() {
   useEffect(() => {
     const fetchAssignment = async () => {
       try {
-        console.log(
-          "📡 Fetching assignment from:",
-          `${backendUrl}/api/assignments/${id}`
-        );
         const { data } = await axios.get(
           `${backendUrl}/api/assignments/${id}`,
-          { headers: { Authorization: `Bearer ${userData.token}` } }
+          {
+            headers: {
+              Authorization: `Bearer ${userData.token}`,
+            },
+          }
         );
-        console.log("✅ Raw API response:", data); // ← Add this
+        console.log("✅ Assignment API response:", data);
+
         if (data.success) {
           setAssignment(data.assignment);
         }
@@ -37,8 +40,8 @@ export default function AssignmentDetails() {
     fetchAssignment();
   }, [id, backendUrl, userData]);
 
-  const formatDate = (iso) => DateTime.fromISO(iso).toFormat("MMMM dd, yyyy");
-  const formatTime = (iso) => DateTime.fromISO(iso).toFormat("hh:mm a");
+  const formatDateTime = (iso) =>
+    DateTime.fromISO(iso).toFormat("MMMM dd, yyyy 'at' hh:mm a");
 
   if (loading) return <p className="text-center py-10">Loading...</p>;
   if (!assignment)
@@ -62,7 +65,7 @@ export default function AssignmentDetails() {
         <div className="p-6 border-b">
           <h1 className="text-2xl font-bold">{assignment.title}</h1>
           <p className="text-gray-500 mt-1">
-            Assigned by: {assignment.createdBy?.name}
+            Assigned by: {assignment.createdBy?.name || "Unknown"}
           </p>
         </div>
 
@@ -74,12 +77,10 @@ export default function AssignmentDetails() {
 
           <div className="flex flex-wrap gap-6">
             <div>
-              <h3 className="font-medium mb-2 text-gray-800">Due Time</h3>
-              <p className="text-gray-600">{formatTime(assignment.dueDate)}</p>
-            </div>
-            <div>
-              <h3 className="font-medium mb-2 text-gray-800">Due Date</h3>
-              <p className="text-gray-600">{formatDate(assignment.dueDate)}</p>
+              <h3 className="font-medium mb-2 text-gray-800">Due Date & Time</h3>
+              <p className="text-gray-600">
+                {formatDateTime(assignment.dueDate)}
+              </p>
             </div>
           </div>
 

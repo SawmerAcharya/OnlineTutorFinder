@@ -5,95 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 // Mock data (same as before)
-const assignments = [
-  {
-    id: 1,
-    title: "Research Paper on Modern Architecture",
-    dueDate: new Date(2025, 4, 10),
-    totalStudents: 25,
-    submittedCount: 18,
-  },
-  {
-    id: 2,
-    title: "Mathematics Problem Set 3",
-    dueDate: new Date(2025, 4, 5),
-    totalStudents: 30,
-    submittedCount: 22,
-  },
-  {
-    id: 3,
-    title: "Literature Review Essay",
-    dueDate: new Date(2025, 4, 15),
-    totalStudents: 28,
-    submittedCount: 15,
-  },
-];
 
-const students = [
-  {
-    id: 1,
-    name: "Alex Johnson",
-    email: "alex.j@example.com",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 2,
-    name: "Jamie Smith",
-    email: "jamie.s@example.com",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 3,
-    name: "Taylor Brown",
-    email: "taylor.b@example.com",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 4,
-    name: "Morgan Davis",
-    email: "morgan.d@example.com",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 5,
-    name: "Casey Wilson",
-    email: "casey.w@example.com",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-  {
-    id: 6,
-    name: "Riley Garcia",
-    email: "riley.g@example.com",
-    avatar: "/placeholder.svg?height=40&width=40",
-  },
-];
-
-const submissions = [
-  {
-    id: 101,
-    assignmentId: 1,
-    studentId: 1,
-    submissionDate: new Date(2025, 4, 8, 14, 35),
-    status: "on-time",
-    files: ["Alex_Johnson_Research_Paper.pdf"],
-    comments: "Here's my research paper on modernism in architecture.",
-    grade: null,
-    feedback: null,
-  },
-
-  {
-    id: 102,
-    assignmentId: 1,
-    studentId: 1,
-    submissionDate: new Date(2025, 4, 8, 14, 35),
-    status: "on-time",
-    files: ["Alex_Johnson_Research_Paper.pdf"],
-    comments: "Here's my research paper on modernism in architecture.",
-    grade: null,
-    feedback: null,
-  },
-  // ...rest of the mock data
-];
 
 export default function SubmissionsPage() {
   const [selectedAssignment, setSelectedAssignment] = useState(null);
@@ -190,12 +102,7 @@ export default function SubmissionsPage() {
   const getAssignment = (id) =>
     assignments.find((assignment) => assignment.id === id);
 
-  const handleGradeSubmission = () => {
-    console.log({ submissionId: gradingSubmission.id, grade, feedback });
-    setGradingSubmission(null);
-    setGrade("");
-    setFeedback("");
-  };
+  
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -420,11 +327,7 @@ export default function SubmissionsPage() {
                                 ? "On Time"
                                 : "Late"}
                             </span>
-                            {submission.grade && (
-                              <span className="inline-flex items-center px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
-                                Grade: {submission.grade}
-                              </span>
-                            )}
+                           
                           </div>
                         </div>
 
@@ -474,18 +377,7 @@ export default function SubmissionsPage() {
                             <Eye className="h-4 w-4 mr-1" />
                             View Details
                           </button>
-                          <button
-                            onClick={() => {
-                              setGradingSubmission(submission);
-                              setGrade(submission.grade || "");
-                              setFeedback(submission.feedback || "");
-                            }}
-                            className="inline-flex items-center px-3 py-1.5 text-sm bg-gray-900 text-white rounded-md hover:bg-gray-800"
-                          >
-                            {submission.grade
-                              ? "Update Grade"
-                              : "Grade Submission"}
-                          </button>
+                          
                         </div>
                       </div>
                     );
@@ -599,19 +491,35 @@ export default function SubmissionsPage() {
                   <div className="space-y-2">
                     <h3 className="text-sm font-medium">Submitted Files</h3>
                     <div className="space-y-2">
-                      {viewingSubmission.files.map((file, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center gap-2 p-3 bg-gray-50 rounded-md"
-                        >
-                          <FileText className="h-5 w-5 text-gray-400" />
-                          <span className="flex-grow">{file}</span>
-                          <button className="text-blue-600 hover:text-blue-800">
-                            <Download className="h-4 w-4 mr-1" />
-                            Download
-                          </button>
-                        </div>
-                      ))}
+                      {viewingSubmission.files.map((fileUrl, idx) => {
+                        // const filename = fileUrl.split("/").pop().split("?")[0];
+                        return (
+                          <div
+                            key={idx}
+                            className="flex items-center justify-between p-3 border rounded-md bg-gray-50"
+                          >
+                            <div className="flex items-center">
+                              <FileText
+                                className="mr-2 text-gray-500"
+                                size={20}
+                              />
+                              <span className="text-gray-700">
+                                {`File ${idx + 1}`}
+                              </span>
+                            </div>
+                            <a
+                              href={fileUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              download
+                              className="text-sm flex items-center text-gray-600 hover:text-gray-900"
+                            >
+                              <Download className="mr-1" size={16} />
+                              Download
+                            </a>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
 
@@ -624,21 +532,7 @@ export default function SubmissionsPage() {
                     </div>
                   )}
 
-                  {viewingSubmission.grade && (
-                    <div className="space-y-2">
-                      <h3 className="text-sm font-medium">Grade & Feedback</h3>
-                      <div className="p-3 bg-gray-50 rounded-md">
-                        <div className="font-medium">
-                          Grade: {viewingSubmission.grade}
-                        </div>
-                        {viewingSubmission.feedback && (
-                          <div className="mt-2 text-sm">
-                            {viewingSubmission.feedback}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
+                  
                 </div>
 
                 <div className="flex justify-end gap-3 pt-6 border-t border-gray-200">
@@ -648,94 +542,15 @@ export default function SubmissionsPage() {
                   >
                     Close
                   </button>
-                  <button
-                    onClick={() => {
-                      setGradingSubmission(viewingSubmission);
-                      setViewingSubmission(null);
-                      setGrade(viewingSubmission.grade || "");
-                      setFeedback(viewingSubmission.feedback || "");
-                    }}
-                    className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800"
-                  >
-                    {viewingSubmission.grade
-                      ? "Update Grade"
-                      : "Grade Submission"}
-                  </button>
+                  
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* Grade Submission Dialog */}
-        {gradingSubmission && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg w-full max-w-lg">
-              <div className="p-6">
-                <h2 className="text-xl font-bold mb-1">Grade Submission</h2>
-                <p className="text-sm text-gray-500 mb-4">
-                  {(() => {
-                    const student = getStudent(gradingSubmission.studentId);
-                    const assignment = getAssignment(
-                      gradingSubmission.assignmentId
-                    );
-                    return `${student?.name} - ${assignment?.title}`;
-                  })()}
-                </p>
-
-                <div className="space-y-4">
-                  <div>
-                    <label
-                      htmlFor="grade"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
-                      Grade
-                    </label>
-                    <input
-                      id="grade"
-                      className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="A, B+, 95%, etc."
-                      value={grade}
-                      onChange={(e) => setGrade(e.target.value)}
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="feedback"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
-                      Feedback
-                    </label>
-                    <textarea
-                      id="feedback"
-                      className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Provide feedback on the submission"
-                      rows={5}
-                      value={feedback}
-                      onChange={(e) => setFeedback(e.target.value)}
-                    ></textarea>
-                  </div>
-                </div>
-
-                <div className="flex justify-end gap-3 mt-6">
-                  <button
-                    onClick={() => setGradingSubmission(null)}
-                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={handleGradeSubmission}
-                    className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800"
-                  >
-                    Save Grade
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        
+        
       </div>
     </div>
   );

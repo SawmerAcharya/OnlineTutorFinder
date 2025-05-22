@@ -44,6 +44,7 @@ const Login = () => {
 
         if (data.user.isAdmin) {
           window.location.href = "/admin";
+          navigate("/admin");
           return;
         }
 

@@ -38,14 +38,14 @@ export default function TutorCard({ tutor, onViewProfile }) {
           <span>{tutor.tutorData?.City || "Unknown Location"}</span>
         </div>
 
-        <div className="flex justify-center items-center text-sm text-yellow-500 mt-1 gap-1">
+        {/* <div className="flex justify-center items-center text-sm text-yellow-500 mt-1 gap-1">
           <FaStar />
           <span>{tutor.rating || "4.0"} ({tutor?.reviewsCount || 15})</span>
-        </div>
+        </div> */}
 
         <div className="absolute top-4 right-4 bg-orange-100 text-orange-600 px-3 py-1 rounded-lg text-sm font-semibold">
           <div>HOURLY</div>
-          <div className="text-lg font-bold">₹{tutor.tutorData?.HourlyRate || "N/A"}</div>
+          <div className="text-lg font-bold">Rs{tutor.tutorData?.HourlyRate || "N/A"}</div>
         </div>
       </div>
 

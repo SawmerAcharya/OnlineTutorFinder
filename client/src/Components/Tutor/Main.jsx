@@ -1,27 +1,4 @@
-// import React from "react";
-// import Nav from "./Nav";
-// import Widgets from "./Widgets";
-// import SessionsList from "./SessionList";
-// import RecentMessages from "./RecentMessages";
-// import PaymentHistory from "./PaymentHistory";
 
-// function Main() {
-//   return (
-//     <div className="flex-1 overflow-auto">
-//       <Nav />
-//       <div className="px-5 py-3">
-//         <Widgets />
-//         <div className="flex gap-9 mt-8"> 
-//           <SessionsList />
-//           <RecentMessages />
-//         </div>
-//         <PaymentHistory />
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Main;
 
 
 import React from "react";
